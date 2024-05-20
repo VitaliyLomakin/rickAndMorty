@@ -1,4 +1,4 @@
-export type CharactersType = {
+export type CharacterType = {
     id:string
     name:string
     status?:string
@@ -11,3 +11,15 @@ export type CharactersType = {
     episode?: unknown
     created?:string
 }
+export type CharactersData = {
+    characters: {
+        results: CharacterType[];
+        info: {
+          next: string | null;
+        };
+      };
+}
+
+export type CharactersVars = {
+    page: number;
+  };

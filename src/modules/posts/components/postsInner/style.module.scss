@@ -1,24 +1,9 @@
 .postsList{
-    // display: grid;
-    // grid-template-columns: repeat(4, 1fr);
-    // gap: 24px 20px;
-    // padding: 27px 0;
-    
-    // @media (max-width:980px) {
-    //     grid-template-columns: repeat(3, 1fr);
-    //     gap: 20px 16px;
-    // }
-    // @media (max-width:760px) {
-    //     grid-template-columns: repeat(2, 1fr);
-    //     gap: 16px 12px;
-    // }
-    // @media (max-width:540px) {
-    //     grid-template-columns: repeat(1, 1fr);
-    // }
+ 
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    
+
 }

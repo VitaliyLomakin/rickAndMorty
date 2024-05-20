@@ -1,92 +1,137 @@
-import  {  useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { FixedSizeGrid as Grid } from 'react-window';
 import { useQuery } from '@apollo/client';
-
-import {  FixedSizeList as List, FixedSizeGrid as Grid   } from 'react-window'; 
-import PostsInner from '../components/postsInner/PostsInner';
-import CharactersCard from '../../../ui/cards/charactersCard/charactersCard';
-import { observer } from 'mobx-react-lite';
-import { useInView } from 'react-intersection-observer';
-
-import type { CharactersType } from '../../../types/characters/charactersType';
-
-import { GET_CHARACTERS } from '../components/api/queryCharacters';
-
-
 import { useStores } from '../../../context/root-store-context';
+import InfiniteLoader from 'react-window-infinite-loader';
+import CharactersCard from '../../../ui/cards/charactersCard/charactersCard';
+import { GET_CHARACTERS } from '../components/api/queryCharacters';
+import { observer } from 'mobx-react-lite';
 
+import { getGridSettings } from '../../../utils/functions/getGridSettings';
 
+import type {
+   CharacterType,
+   CharactersData,
+   CharactersVars,
+} from '../../../types/characters/charactersType';
 
-const CharactersPosts= observer( () => {
-    
-    const {ref, inView} = useInView({
-        threshold: 1
-    })
-    const {characters} =useStores()   
-    const [charactersState, setCharactersState] = useState<CharactersType[]>(characters.charactersData)
+const screenWidth = window.innerWidth;
 
-    const {data, loading, error} = useQuery(GET_CHARACTERS, {
-        variables: {
-            page: characters.page
-        }
-    })
-    useEffect(()=>{
-        if(data && inView ){
+const { widthGrid, columnCount, columnWidth } = getGridSettings(screenWidth);
 
-            const newCharacters =  data.characters.results
-            
-            characters.loadPosts([...newCharacters])
-            
-            
-            setCharactersState(prevState =>[...prevState, ...newCharacters]);
-        }
-       
-        
-    }, [data, inView])
+const CharactersPosts = observer(() => {
+   const { characters } = useStores();
 
+   const [charactersData, setCharactersData] = useState<CharacterType[]>(
+      characters.charactersData ? characters.charactersData : [],
+   );
+   const [page, setPage] = useState(characters.page);
+   const [hasMoreCharacters, setHasMoreCharacters] = useState(true);
 
-   
-   
-    return (
-        <PostsInner >
-       
-        <Grid 
-          columnCount={4}
-          columnWidth={240}
-          height={charactersState.length * 70}
-          rowCount={Math.ceil(charactersState.length / 4)} 
-          rowHeight={280}
-          width={1000}>
-            
-            {  ({ columnIndex, rowIndex, style}) => {
-          
-            const index = rowIndex * 4 + columnIndex;
-                const character = charactersState[index];
-                if (!character) {
-                    return null;
-                }
+   const { data, loading, error } = useQuery<CharactersData, CharactersVars>(
+      GET_CHARACTERS,
+      {
+         variables: { page },
+         fetchPolicy: 'cache-first',
+      },
+   );
 
-                const { name, species, id, image } = character;
-                return (    
-                    <div >
-                           <CharactersCard  style={style} key={id} name={name} species={species} id={id} image={image} /> 
-                    </div>  
-                  
-                    );
-            }}
-        </Grid>
-        
-         {
-            loading && <h2>load...</h2>
+   useEffect(() => {
+      if (data && data.characters && data.characters.results.length > 0) {
+         const newCharacters = data.characters.results;
+         setCharactersData(prevCharacters => [
+            ...prevCharacters,
+            ...newCharacters,
+         ]);
+         characters.loadPosts(newCharacters);
+         setHasMoreCharacters(data.characters.info.next !== null);
+      }
+   }, [data]);
+
+   const loadMoreCharacters = useCallback(async () => {
+      if (loading || !hasMoreCharacters) return;
+      setPage(prevPage => prevPage + 1);
+   }, [loading, hasMoreCharacters]);
+
+   const isCharacterLoaded = index => index < charactersData.length;
+
+   const Cell = ({ columnIndex, rowIndex, style }) => {
+      const itemIndex = rowIndex * columnCount + columnIndex;
+      const item = charactersData[itemIndex];
+
+      const cellStyle = {
+         ...style,
+         padding: '10px',
+         boxSizing: 'border-box',
+         width: '100%',
+         display: columnCount === 1 && 'flex',
+         justifyContent: columnCount === 1 && 'center',
+         alignItems: columnCount === 1 && 'center',
+      };
+
+      return (
+         <div style={cellStyle}>
+            {item ? (
+               <CharactersCard
+                  id={item.id}
+                  style={style}
+                  species={item.species}
+                  name={item.name}
+                  image={item.image}
+               />
+            ) : (
+               'Loading...'
+            )}
+         </div>
+      );
+   };
+
+   const rowCount = Math.ceil(charactersData.length / columnCount);
+
+   return (
+      <InfiniteLoader
+         isItemLoaded={isCharacterLoaded}
+         itemCount={
+            hasMoreCharacters
+               ? charactersData.length + columnCount
+               : charactersData.length
          }
-       
-        <div ref={ref} >тут будет спинер!!!</div>
-      
-        </PostsInner>
-      
-        
-    );
-})
+         loadMoreItems={loadMoreCharacters}
+      >
+         {({ onItemsRendered, ref }) => (
+            <Grid
+               style={{
+                  overflowX: 'hidden',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+               }}
+               columnCount={columnCount}
+               columnWidth={columnWidth}
+               height={800}
+               rowCount={rowCount}
+               rowHeight={columnCount === 1 ? 326 : 290}
+               width={widthGrid}
+               onItemsRendered={({
+                  visibleRowStartIndex,
+                  visibleRowStopIndex,
+               }) =>
+                  onItemsRendered({
+                     overscanStartIndex: visibleRowStartIndex * columnCount,
+                     overscanStopIndex:
+                        visibleRowStopIndex * columnCount + columnCount,
+                     visibleStartIndex: visibleRowStartIndex * columnCount,
+                     visibleStopIndex:
+                        visibleRowStopIndex * columnCount + columnCount,
+                  })
+               }
+               ref={ref}
+            >
+               {Cell}
+            </Grid>
+         )}
+      </InfiniteLoader>
+   );
+});
 
 export default CharactersPosts;
-
- 
