@@ -19,6 +19,7 @@
     "graphql": "^16.8.1",
     "i": "^0.3.7",
     "install": "^0.13.0",
+    "lodash.debounce": "^4.0.8",
     "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
     "mobx-utils": "^6.0.8",

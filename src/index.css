@@ -16,8 +16,9 @@ code {
 main{
   width: 100%;
   max-width: 1060px;
- 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 0 10px;
+  margin-top: 40px;
 }

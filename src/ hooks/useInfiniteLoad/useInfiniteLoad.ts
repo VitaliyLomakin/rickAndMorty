@@ -2,18 +2,18 @@ import { useEffect, useCallback } from "react";
 import { useQuery } from "@apollo/client"
 
 
-export const useInfiniteLoad = (endpoint, page, setData, storeData,  setHasMoreData, hasMoreData, setPage) =>{
-    const { data, loading, error } = useQuery(
+export const useInfiniteLoad = (endpoint, vars, setData, storeData,  setHasMoreData, hasMoreData, setPage) =>{
+
+   const { data, loading, error } = useQuery(
         endpoint,
         {
-           variables: { page },
+           variables: { ...vars },
            fetchPolicy: 'cache-first',
         },
      );
 
      useEffect(() => {
-        console.log(data)
-        if (data && data.characters.results.length > 0) {
+        if (data && data.characters.results.length > 0) {         
            const newCharacters = data.characters.results;
            setData(prevCharacters => [
               ...prevCharacters,
@@ -22,6 +22,7 @@ export const useInfiniteLoad = (endpoint, page, setData, storeData,  setHasMoreD
            storeData.loadPosts(newCharacters);
            setHasMoreData(data.characters.info.next !== null);
         }
+        
      }, [data]);
 
      const loadMoreCharacters = useCallback(async () => {

@@ -1,11 +1,16 @@
-import React from 'react';
+import  { ChangeEvent} from 'react';
 import TextField from '@mui/material/TextField';
 
-const FilterPostsInput = () => {
+const FilterPostsInput = ({value, setValue, placeholder, id}) => {
+    
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>) =>{
+        setValue(e.target.value as string)
+     }
     return (
-        <div>
-            
-        </div>
+        <>
+            <TextField onChange={onChange} id="outlined-basic" value={value} label={placeholder} variant="outlined" />
+        </>
     );
 }
 

@@ -23,3 +23,9 @@ export type CharactersData = {
 export type CharactersVars = {
     page: number;
   };
+
+export type CharactersFilteredVars = {
+  page:number
+  name:string
+  species:string
+}
