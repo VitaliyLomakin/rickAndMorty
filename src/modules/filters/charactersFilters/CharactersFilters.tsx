@@ -13,7 +13,7 @@ const CharactersFilters = observer(() => {
 
 //   const [charactersData, setCharactersData] = useState(characters.filteredCharactersData ? characters.filteredCharactersData : []);
   const [name, setName] = useState(characters.filterName);
-  const [page, setPage] = useState(characters.filteredPage);
+
 
 
   const [loadCharacters, { data, loading, error }] = useLazyQuery<CharactersData, CharactersFilteredVars>(
@@ -27,40 +27,38 @@ const CharactersFilters = observer(() => {
     if (data && data.characters.results) {
      
       const res = data.characters.results;
-      characters.filteredLoadPosts(res, name, page);
+      characters.filteredLoadPosts(res, name);
    
     }
-  }, [data, characters, name, page]);
+  }, [data, characters, name]);
 
   const debouncedLoadCharacters = useCallback(
-    debounce((newName: string, newPage: number) => {
+    debounce((newName: string) => {
+     
         if(newName.trim() !== '' ){
-        loadCharacters({ variables: { page: newPage, name: newName, species: '' } });
+        loadCharacters({ variables: { page: characters.filteredPage, name: newName, species: '' } });
+        } 
+        if(name.length === 0){
+          characters.setIsFilter(false)
         }
      
-    }, 1000),
-    [loadCharacters]
+    }, 300),
+    [loadCharacters, name]
   );
 
   useEffect(() => {
-    debouncedLoadCharacters(name, page);
-  }, [name, page, debouncedLoadCharacters]);
+    debouncedLoadCharacters(name, characters.filteredPage);
+  }, [name, debouncedLoadCharacters]);
 
   const handleNameChange = (newName: string) => {
   
         setName(newName);
-        setPage(1)
+        characters.setFilterName(newName)
+        characters.setFilteredPage(1)
         characters.setFilteredCharactersData([]);
     
   };
 
-  const onClickPlusPage = () => {
-    setPage((prev) => prev + 1);
-  };
-
-  const onClickMinusPage = () => {
-    setPage((prev) => prev > 1 ? prev - 1 : 1);
-  };
 
   return (
     <div>
@@ -70,23 +68,14 @@ const CharactersFilters = observer(() => {
         placeholder={'Filter by name...'}
         id={'name'}
       />
-      {/* <ul>
-        {charactersData.map((el) => (
-          <li key={el.id}>
-            {el.id} {el.name}
-          </li>
-        ))}
-      </ul> */}
-      
-      <button onClick={onClickMinusPage}>-</button>
-      {page}
-      <button onClick={onClickPlusPage}>+</button>
+     
+    
       {
         characters.isFilter 
         ? 'filter!!!'
         : "not is filter"
       }
-       {characters.isFilter && "filter"}
+    
     </div>
   );
 });

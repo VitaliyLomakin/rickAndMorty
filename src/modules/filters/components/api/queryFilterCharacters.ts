@@ -4,6 +4,7 @@ export const GET_FILTERCHARACTERS = gql`
   query getFilteredCharacters($page: Int, $name: String, $species: String){
   characters(page: $page, filter: {name: $name, species:$species } ){
     info{
+      pages
       prev
       next
     }

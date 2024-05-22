@@ -18,19 +18,20 @@ class CharactersStore {
         this.charactersData = [...this.charactersData, ...newData];
     }
 
-    filteredLoadPosts(newData: CharacterType[], inputVal: string, pageState: number) {
-        console.log(newData)
-        console.log(inputVal.length);
-        if (inputVal.length === 0) {
-          return this.isFilter = false;
-        } else {
-            this.isFilter = true;
-            this.filterName = inputVal;
-            
-            this.filteredPage += 1;
+    filteredLoadPosts(newData: CharacterType[], inputVal: string) {
+      
+        if (inputVal) {
+        
+          this.isFilter = true;
+          this.filterName = inputVal;
+          this.filteredCharactersData = [...this.filteredCharactersData, ...newData];        
+        } 
+    }
+    filteredLoadPostsInfiniteScroll(newData:CharacterType[]){
+      
+           
             this.filteredCharactersData = [...this.filteredCharactersData, ...newData];
-            
-        }
+        
     }
 
     setCharactersData(data: CharacterType[]) {
@@ -51,6 +52,9 @@ class CharactersStore {
 
     setFilteredPage(page: number) {
         this.filteredPage = page;
+    }
+    setIsFilter(boolean:boolean){
+        this.isFilter = boolean
     }
 }
 

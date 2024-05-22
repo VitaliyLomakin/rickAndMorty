@@ -15,11 +15,20 @@ export const useInfiniteLoad = (endpoint, vars, setData, storeData,  setHasMoreD
      useEffect(() => {
         if (data && data.characters.results.length > 0) {         
            const newCharacters = data.characters.results;
-           setData(prevCharacters => [
-              ...prevCharacters,
-              ...newCharacters,
-           ]);
-           storeData.loadPosts(newCharacters);
+           const info = data.characters.info.pages
+           console.log(info)
+          
+
+           console.log(storeData.isFilter)
+           if(storeData.isFilter){
+            storeData.filteredLoadPostsInfiniteScroll(newCharacters)
+           }else{
+            storeData.loadPosts(newCharacters)
+           }
+
+          
+          
+           
            setHasMoreData(data.characters.info.next !== null);
         }
         

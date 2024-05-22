@@ -29,27 +29,35 @@ const CharactersPosts = observer(() => {
  
 
 
-   const [charactersData, setCharactersData] = useState<CharacterType[]>(
-      characters.isFilter ? characters.filteredCharactersData  : characters.charactersData 
-   );
+   const [charactersData, setCharactersData] = useState<CharacterType[]>(characters.charactersData );
+   // const [charactersDataFiltered, setCharactersDataFiltered] = useState(characters.filteredCharactersData  )
    const [page, setPage] = useState(characters.page);
+   const [pageFiltered, setPageFiltered] = useState(characters.filteredPage)
    const [hasMoreCharacters, setHasMoreCharacters] = useState(true);
 
    const vars = {
-      page: page,
+      page: characters.isFilter ? pageFiltered : page,
       name: characters.isFilter && characters.filterName,
       species:  characters.isFilter && ''
     };
     endpoints = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS
 
    useEffect(() => {
-      setCharactersData(characters.isFilter ? characters.filteredCharactersData : characters.charactersData);
-      setPage(characters.isFilter ? characters.filteredPage : characters.page)      
-      
-    }, [characters.isFilter, characters.filteredCharactersData]);
+     
+     
+      if(characters.isFilter){
+         setCharactersData(characters.filteredCharactersData)
+      }else{
+         setCharactersData(characters.charactersData)
+      }
+    }, [characters.isFilter, characters.charactersData, characters.filteredCharactersData]);
   
    
-   const {loadMoreCharacters } = useInfiniteLoad(endpoints, vars, setCharactersData, characters, setHasMoreCharacters,hasMoreCharacters,setPage)
+   const {loadMoreCharacters } = useInfiniteLoad(endpoints, vars,
+      setCharactersData, characters, setHasMoreCharacters,hasMoreCharacters,
+      characters.isFilter 
+      ? setPageFiltered
+      : setPage)
 
    const isCharacterLoaded = index => index < charactersData.length;
 
@@ -57,7 +65,7 @@ const CharactersPosts = observer(() => {
 
    return (
       <>
-     {page} ========= {charactersData.length}
+     {characters.page} === {characters.filteredPage} === {charactersData.length}
          
          <InfiniteLoader
             isItemLoaded={isCharacterLoaded}
@@ -77,7 +85,7 @@ const CharactersPosts = observer(() => {
             widthGrid={widthGrid}
             onItemsRendered={onItemsRendered}
             reference={ref}
-            data={charactersData}
+            data={charactersData }
          />
             )}
          </InfiniteLoader>
