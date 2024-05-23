@@ -20,44 +20,43 @@ const { widthGrid, columnCount, columnWidth } = getGridSettings(window.innerWidt
 const CharactersPosts = observer(() => {
 
    const { characters } = useStores();
-   const [charactersData, setCharactersData] = useState<CharacterType[]>(
-     []
-   );
-   const [page, setPage] = useState(characters.page);
-   const [pageFiltered, setPageFiltered] = useState(characters.filteredPage)
+
    const [hasMoreCharacters, setHasMoreCharacters] = useState(true);
 
    const vars = {
-      page: characters.isFilter ? pageFiltered  : page  ,
+      page: characters.page,
       name: characters.isFilter && characters.filterName,
-      species:  characters.isFilter && ''
-    };
-    endpoints = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS
+   
+   };
+
+   endpoints = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS
 
    useEffect(() => {
-      if(characters.filteredCharactersData.length === 0){
-         setCharactersData([])
-      }
-      setCharactersData(characters.isFilter ? characters.filteredCharactersData : characters.charactersData);  
-    }, [characters.isFilter, characters.charactersData, characters.filteredCharactersData]);
+      console.log('useEf')
+     
+         characters.setPage(1)
+         characters.setCharactersData([])
+        
+      
+   }, [characters.isFilter, characters.filterName]);
    
-    const {loadMoreCharacters, error, loading } = useInfiniteLoad(endpoints, vars, setCharactersData, characters, setHasMoreCharacters,hasMoreCharacters,characters.isFilter ? setPageFiltered : setPage)
+    const {loadMoreCharacters, error, loading } = useInfiniteLoad(endpoints, vars, characters, 
+      setHasMoreCharacters,hasMoreCharacters)
 
-   const isCharacterLoaded = index => index < charactersData.length;
+   const isCharacterLoaded = index => index < characters.charactersData.length;
 
-   const rowCount = Math.ceil(charactersData.length / columnCount);
+   const rowCount = Math.ceil(characters.charactersData.length / columnCount);
 
-   console.log(loading)
 
    return (
       <>
-         
+         {characters.charactersData.length}==={characters.page} 
          <InfiniteLoader
             isItemLoaded={isCharacterLoaded}
             itemCount={
                hasMoreCharacters
-                  ? charactersData.length + columnCount
-                  : charactersData.length
+                  ? characters.charactersData.length + columnCount
+                  : characters.charactersData.length
             }
             loadMoreItems={loadMoreCharacters}
          >
@@ -65,12 +64,12 @@ const CharactersPosts = observer(() => {
             <PostsInner
             columnCount={columnCount}
             columnWidth={columnWidth}
-            height={800}
+            height={1000}
             rowCount={rowCount}
             widthGrid={widthGrid}
             onItemsRendered={onItemsRendered}
             reference={ref}
-            data={charactersData}
+            data={characters.charactersData}
          />
             )}
          </InfiniteLoader>

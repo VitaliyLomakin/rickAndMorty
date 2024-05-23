@@ -2,35 +2,35 @@ import { useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
 import { deleteDublicate } from '../../utils/functions/deleteDublicate';
 
-export const useInfiniteLoad = (endpoint, vars, setData, storeData, setHasMoreData, hasMoreData, setPage) => {
+export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMoreData) => {
+ 
+ console.log('fffff')
   const { data, loading, error } = useQuery(endpoint, {
     variables: { ...vars },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'cache-first',
   });
 
   useEffect(() => {
     if (data && data.characters.results.length > 0) {
       const newCharacters = data.characters.results;
-      const uniqueCharacters = deleteDublicate(
-        storeData.isFilter ? [...storeData.filteredCharactersData, ...newCharacters] : [...storeData.charactersData, ...newCharacters],
-        "id"
-      );
-
-      if (storeData.isFilter) {
-        storeData.filteredLoadPostsInfiniteScroll(newCharacters);
-      } else {
-        storeData.loadPosts(newCharacters);
-      }
-
-      setData(uniqueCharacters);
+    
+      // const uniqueCharacters = deleteDublicate(
+      //   storeData.isFilter ? [...storeData.filteredCharactersData, ...newCharacters] : [...storeData.charactersData, ...newCharacters],
+      //   "id"
+      // );
+      storeData.loadPosts(newCharacters)
+      
+      
+     
       setHasMoreData(data.characters.info.next !== null);
     }
-  }, [data, storeData, setHasMoreData, setData]);
+  }, [data, storeData, setHasMoreData, hasMoreData]);
 
   const loadMoreCharacters = useCallback(() => {
     if (loading || !hasMoreData) return;
-    setPage(prevPage => prevPage + 1);
-  }, [loading, hasMoreData, setPage]);
+    
+    storeData.setPagePlusNumber()
+  }, [loading, hasMoreData]);
 
   return { data, loading, error, loadMoreCharacters };
 }

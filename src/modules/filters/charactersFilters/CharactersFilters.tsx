@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import debounce from 'lodash.debounce';
 import { useStores } from '../../../context/root-store-context';
@@ -7,34 +7,30 @@ import FilterPostsInput from '../../../ui/inputs/filterPostsInput/FilterPostsInp
 const CharactersFilters = observer(() => {
   const { characters } = useStores();
   const [name, setName] = useState(characters.filterName);
-  const lastNameRef = useRef(name);
 
   const debouncedLoadCharacters = useCallback(
     debounce((newName) => {
-      if (newName.trim() !== characters.filterName) {
+      if (newName.trim() !== '') {
         characters.setFilterName(newName.trim());
-        characters.setIsFilter(newName.trim() !== '');
+        characters.setIsFilter(true);
+      } else {
+        characters.setFilterName('');
+        characters.setIsFilter(false);
       }
     }, 1000),
     [characters]
   );
 
   useEffect(() => {
-    if (lastNameRef.current !== name) {
+    
       debouncedLoadCharacters(name);
-      lastNameRef.current = name;
-    }
-    return () => {
-      debouncedLoadCharacters.cancel();
-    };
+      
+   
   }, [name, debouncedLoadCharacters]);
 
   const handleNameChange = (newName) => {
     setName(newName);
-    if (lastNameRef.current !== newName) {
-      characters.setFilteredPage(1);
-      characters.setFilteredCharactersData([]);
-    }
+
   };
 
   return (
@@ -45,6 +41,7 @@ const CharactersFilters = observer(() => {
         placeholder={'Filter by name...'}
         id={'name'}
       />
+      {characters.isFilter && "filter!"}
     </div>
   );
 });
