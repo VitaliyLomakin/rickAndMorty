@@ -60,9 +60,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 a {
-	text-decoration: none; /* Убираем подчеркивание */
-	color: inherit; /* Наследуем цвет текста от родительского элемента */
-	cursor: pointer; /* Задаем курсор в виде указателя */
-	transition: color 0.3s ease; /* Анимация изменения цвета при наведении */
+	font-weight: 700;
+	text-decoration: none; 
+	color: inherit; 
+	cursor: pointer; 
+	transition: color 0.3s ease; 
   }

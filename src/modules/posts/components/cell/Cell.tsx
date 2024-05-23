@@ -11,21 +11,19 @@ export const Cell = ({ columnIndex, rowIndex, style, columnCount, data }) => {
 
     return (
        <div style={cellStyle}>
-          {item ? (
+          {item && 
             
-              
-               <CharactersCard
+              <>
+              {item.id}
+              <CharactersCard
                   id={item.id}
                   style={style}
                   species={item.species}
                   name={item.name}
                   image={item.image}
                />
-            
-             
-          ) : (
-             'Loading...'
-          )}
+              </>
+     }
        </div>
     );
  };

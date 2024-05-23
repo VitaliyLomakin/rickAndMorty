@@ -1,20 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import style from './style.module.scss'
+import { Link as RouterLink } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 import { headerNavRoutes } from '../../routes/routes';
 
-const {nav, ul, li, link} = style
+const styleLink = {
+    fontFamily:"Karla",
+    padding:"0",
+    fontWeight: "700",
+    fontsSize:"18px"
+}
+const styleNavbar = {
+    boxShadow:"none", 
+    background:"#fff",
+    display: { xs: 'none', sm: 'block' },
+}
+  
 
 const Nav = () => {
     return (
-        <nav className={nav} >
-            <ul className={ul}>
-                {headerNavRoutes.map(({path, text}) => <li className={li} key={text} >
-                    <Link className={link} to={path}>{text}</Link>
-                </li>  )}
-            </ul>
-        </nav>
+        <AppBar component="nav" position="static" sx={styleNavbar} >
+                <Box component="ul" sx={{ display: 'flex', gap: "27px" }}>
+                    {headerNavRoutes.map(({ path, text }) => (
+                        <Button
+                            sx={styleLink}
+                            key={text}
+                            component={RouterLink}
+                            to={path}
+                            color="inherit"
+                        >
+                            {text}
+                        </Button>
+                    ))}
+                </Box>
+          
+        </AppBar>
     );
 }
 

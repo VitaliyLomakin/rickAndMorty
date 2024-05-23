@@ -11,18 +11,30 @@ export type CharacterType = {
     episode?: unknown
     created?:string
 }
+
+
+type CharactersResults = {
+  results: CharacterType[];
+};
+
+type CharactersInfo = {
+  pages:number
+  count:number
+  prev:number
+  next:number
+};
+
+
 export type CharactersData = {
     characters: {
-        results: CharacterType[];
-        info: {
-          next: string | null;
-        };
+        results:CharactersResults;
+        info: CharactersInfo
       };
 }
 
 export type CharactersVars = {
     page: number;
-  };
+};
 
 export type CharactersFilteredVars = {
   page:number
