@@ -1,17 +1,28 @@
-import { useEffect, useCallback } from "react";
-import { useQuery } from "@apollo/client";
+import { useEffect, useCallback } from 'react';
+import { useQuery } from '@apollo/client';
 
-export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMoreData) => {
+export const useInfiniteLoad = (
+   endpoint,
+   vars,
+   storeData,
+   setHasMoreData,
+   hasMoreData,
+) => {
    const { data, loading, error, refetch } = useQuery(endpoint, {
       variables: { ...vars },
       fetchPolicy: 'cache-first',
    });
 
    useEffect(() => {
-      if (data && data.characters && data.characters.results && data.characters.results.length > 0) {
+      if (
+         data &&
+         data.characters &&
+         data.characters.results &&
+         data.characters.results.length > 0
+      ) {
          const newCharacters = data.characters.results;
          const prevPage = data.characters.info.prev;
-         
+
          if (prevPage + 1) {
             storeData.loadPosts(newCharacters);
          } else {
@@ -32,7 +43,6 @@ export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMo
          const pages = data.characters.info.pages;
          const prevPage = data.characters.info.prev;
          if (pages !== prevPage && error) {
-           
             refetch();
          }
       }
@@ -41,10 +51,9 @@ export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMo
    // Custom function to trigger refetch if needed
    const handleRefetch = useCallback(() => {
       if (!loading && !error) {
-        
          refetch();
       }
    }, [loading, error, refetch]);
 
-   return { data, loading, error, loadMoreCharacters ,refetch};
+   return { data, loading, error, loadMoreCharacters, refetch };
 };

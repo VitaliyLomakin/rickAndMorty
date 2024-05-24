@@ -1,10 +1,9 @@
-import { CharacterType } from "../../../types/characters/charactersType"
+import { CharacterType } from '../../../types/characters/charactersType';
 
 type DataType = {
-    data: CharacterType[]
-}
+   data: CharacterType[];
+};
 
-
-export type CharactersFilters ={
-    data:DataType
-}
+export type CharactersFilters = {
+   data: DataType;
+};

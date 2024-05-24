@@ -1,7 +1,7 @@
-import charactesStore from "./charactes-store";
+import charactesStore from './charactes-store';
 
 class RootStore {
-    characters = charactesStore
+   characters = charactesStore;
 }
 
-export default RootStore
+export default RootStore;
