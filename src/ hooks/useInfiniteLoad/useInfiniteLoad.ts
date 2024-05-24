@@ -31,9 +31,9 @@ export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMo
       if (data && data.characters && data.characters.info) {
          const pages = data.characters.info.pages;
          const prevPage = data.characters.info.prev;
-         if (pages !== prevPage) {
-            console.log('Loading more characters...');
+         if (pages !== prevPage && error) {
            
+            refetch();
          }
       }
    }, [data, error]);
@@ -41,7 +41,7 @@ export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMo
    // Custom function to trigger refetch if needed
    const handleRefetch = useCallback(() => {
       if (!loading && !error) {
-         console.log('Refetching data...');
+        
          refetch();
       }
    }, [loading, error, refetch]);

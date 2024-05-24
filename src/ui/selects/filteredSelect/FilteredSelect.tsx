@@ -1,30 +1,30 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import { FC } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import type { FilteredSelectProps } from './type';
 
-const FilteredSelect = () => {
-    const [age, setAge] = React.useState('');
+
+const FilteredSelect:FC<FilteredSelectProps>= ({data ,setData, arrValue, label, id}) => {
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setData(event.target.value as string);
   };
     return (
         <FormControl >
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id={label}>{label}</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          label="Age"
+          labelId={label}
+          id={id}
+          value={data}
+          label={label}
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {
+            arrValue.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)
+          }
         </Select>
       </FormControl>
     );

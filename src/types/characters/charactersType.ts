@@ -41,3 +41,5 @@ export type CharactersFilteredVars = {
   name:string
   species:string
 }
+
+

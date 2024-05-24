@@ -16,13 +16,16 @@ const CharactersPosts = observer(() => {
 
    const vars = {
       page:  characters.page ,
-      name: characters.isFilter ? characters.filterName : undefined,
-      species: characters.species ? characters.species : undefined,
+      name: characters.isFilter ? characters.filterName : "",
+      species: (characters.species !== "null" && characters.species !== "" ) ? characters.species : undefined,
+      gender:  (characters.gender !== "null" && characters.gender !== "" ) ? characters.gender : undefined,
+      status:  (characters.status !== "null" && characters.status !== "" ) ? characters.status : undefined
    };
 
    const endpoint = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS;
 
    useEffect(() => {
+      console.log(characters.gender)
       characters.setPage(1);
       characters.setCharactersData([]);
      
@@ -31,7 +34,7 @@ const CharactersPosts = observer(() => {
          characters.setPage(1);
          characters.setCharactersData([]);
       };
-   }, [characters.isFilter, characters.filterName, characters, characters.species]);
+   }, [characters.isFilter, characters.filterName, characters.gender, characters.status ,characters.species]);
 
  
   
