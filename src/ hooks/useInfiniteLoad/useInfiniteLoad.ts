@@ -1,36 +1,50 @@
-import { useEffect, useCallback } from 'react';
-import { useQuery } from '@apollo/client';
-import { deleteDublicate } from '../../utils/functions/deleteDublicate';
+import { useEffect, useCallback } from "react";
+import { useQuery } from "@apollo/client";
 
 export const useInfiniteLoad = (endpoint, vars, storeData, setHasMoreData, hasMoreData) => {
- 
- console.log('fffff')
-  const { data, loading, error } = useQuery(endpoint, {
-    variables: { ...vars },
-    fetchPolicy: 'cache-first',
-  });
+   const { data, loading, error, refetch } = useQuery(endpoint, {
+      variables: { ...vars },
+      fetchPolicy: 'cache-first',
+   });
 
-  useEffect(() => {
-    if (data && data.characters.results.length > 0) {
-      const newCharacters = data.characters.results;
-    
-      // const uniqueCharacters = deleteDublicate(
-      //   storeData.isFilter ? [...storeData.filteredCharactersData, ...newCharacters] : [...storeData.charactersData, ...newCharacters],
-      //   "id"
-      // );
-      storeData.loadPosts(newCharacters)
-      
-      
-     
-      setHasMoreData(data.characters.info.next !== null);
-    }
-  }, [data, storeData, setHasMoreData, hasMoreData]);
+   useEffect(() => {
+      if (data && data.characters && data.characters.results && data.characters.results.length > 0) {
+         const newCharacters = data.characters.results;
+         const prevPage = data.characters.info.prev;
+         
+         if (prevPage + 1) {
+            storeData.loadPosts(newCharacters);
+         } else {
+            storeData.setPage(1);
+         }
 
-  const loadMoreCharacters = useCallback(() => {
-    if (loading || !hasMoreData) return;
-    
-    storeData.setPagePlusNumber()
-  }, [loading, hasMoreData]);
+         setHasMoreData(data.characters.info.next !== null);
+      }
+   }, [data, error, storeData, setHasMoreData]);
 
-  return { data, loading, error, loadMoreCharacters };
-}
+   const loadMoreCharacters = useCallback(() => {
+      if (loading || !hasMoreData) return;
+      storeData.setPage(storeData.page + 1);
+   }, [loading, hasMoreData, storeData]);
+
+   useEffect(() => {
+      if (data && data.characters && data.characters.info) {
+         const pages = data.characters.info.pages;
+         const prevPage = data.characters.info.prev;
+         if (pages !== prevPage) {
+            console.log('Loading more characters...');
+           
+         }
+      }
+   }, [data, error]);
+
+   // Custom function to trigger refetch if needed
+   const handleRefetch = useCallback(() => {
+      if (!loading && !error) {
+         console.log('Refetching data...');
+         refetch();
+      }
+   }, [loading, error, refetch]);
+
+   return { data, loading, error, loadMoreCharacters ,refetch};
+};

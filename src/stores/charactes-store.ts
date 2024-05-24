@@ -7,6 +7,7 @@ class CharactersStore {
     page = 1;
  
     filterName = '';
+    species=''
     isFilter = false;
   
 
@@ -15,18 +16,22 @@ class CharactersStore {
     }
 
     loadPosts(newData: CharacterType[] ) {    
-        this.charactersData = [...this.charactersData, ...newData];
-        
+        // this.charactersData = [...this.charactersData, ...newData];
+        const res = deleteDublicate([...this.charactersData, ...newData], "id")
+        console.log(res)
+        this.charactersData = [...res]
     }
-
 
     setCharactersData(data: CharacterType[]) {
         this.charactersData = data;
     }
 
-   
     setFilterName(name: string) {
         this.filterName = name;
+    }
+    setFilterSpecies(name: string) {
+        console.log(name)
+        this.species = name;
     }
 
     setPage(page:number) {
