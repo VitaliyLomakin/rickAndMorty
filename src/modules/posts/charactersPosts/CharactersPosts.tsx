@@ -65,11 +65,7 @@ const CharactersPosts = observer(() => {
 
    return (
       <>
-      {loading && "load..."}
-         {characters.charactersData.length} === {characters.page}
-       
-         {error && "error 123"}
-         <button onClick={()=> refetch()} >err!</button>
+         
          <InfiniteLoader
             isItemLoaded={isCharacterLoaded}
             itemCount={characters.charactersData.length * 2}
@@ -79,7 +75,7 @@ const CharactersPosts = observer(() => {
                <PostsInner
                   columnCount={columnCount}
                   columnWidth={columnWidth}
-                  height={1000}
+                  height={600}
                   rowCount={rowCount}
                   widthGrid={widthGrid}
                   onItemsRendered={onItemsRendered}
@@ -88,6 +84,7 @@ const CharactersPosts = observer(() => {
                />
             )}
          </InfiniteLoader>
+         {loading && "load..."}
       </>
    );
 });

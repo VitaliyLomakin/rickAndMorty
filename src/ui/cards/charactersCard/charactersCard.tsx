@@ -36,7 +36,7 @@ const styleCard = {
   maxWidth: '240px',
   display:"block",
   borderRadius: '4px',
-  '@media (max-width: 550px)': {
+  '@media (max-width: 500px)': {
     maxWidth: '312px',
     height: "302px",
   }

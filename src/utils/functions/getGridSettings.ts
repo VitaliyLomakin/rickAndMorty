@@ -4,15 +4,15 @@ export const getGridSettings = (screenWidth:number) => {
     let columnWidth = 260;
   
     switch (true) {
-      case screenWidth < 550:
-        console.log('< 550');
-        widthGrid = 500;
+      case screenWidth < 520:
+        widthGrid = screenWidth;
         columnCount = 1;
         columnWidth = 200;
         break;
+
       case screenWidth < 800:
         console.log('< 800');
-        widthGrid = 540;
+        widthGrid = screenWidth;
         columnCount = 2;
         break;
       case screenWidth >= 801 && screenWidth < 1080:

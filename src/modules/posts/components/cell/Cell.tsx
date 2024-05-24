@@ -14,7 +14,7 @@ export const Cell = ({ columnIndex, rowIndex, style, columnCount, data }) => {
           {item && 
             
               <>
-              {item.id}
+
               <CharactersCard
                   id={item.id}
                   style={style}

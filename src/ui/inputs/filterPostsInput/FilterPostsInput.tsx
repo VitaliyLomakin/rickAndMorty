@@ -1,7 +1,13 @@
 import  { ChangeEvent} from 'react';
 import TextField from '@mui/material/TextField';
+import { useMediaQuery } from '@mui/material';
 
 const FilterPostsInput = ({value, setValue, placeholder, id}) => {
+    const isMobile = useMediaQuery('(max-width:600px)');
+
+    const sx = isMobile
+      ? { width: '100%' }
+      : { width: '23%' }; 
     
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) =>{
@@ -9,7 +15,7 @@ const FilterPostsInput = ({value, setValue, placeholder, id}) => {
      }
     return (
         <>
-            <TextField onChange={onChange} id="outlined-basic" value={value} label={placeholder} variant="outlined" />
+            <TextField sx={sx} onChange={onChange} id="outlined-basic" value={value} label={placeholder} variant="outlined" />
         </>
     );
 }

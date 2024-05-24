@@ -72,7 +72,7 @@ const Header = () => {
           {
             isMobile 
 
-            ? drawereOpen ? <img onClick={handleDrawerToggle} src="/image/close.svg" alt="close" /> :  <img onClick={handleDrawerToggle} src="/image/menu.svg" alt="close" />
+            ? drawereOpen ? <img onClick={handleDrawerToggle} src="/image/close.svg" alt="close" /> :  <img onClick={handleDrawerToggle} src="/image/menu.svg" alt="open" />
             : <Nav/>
          }
           </Box>
