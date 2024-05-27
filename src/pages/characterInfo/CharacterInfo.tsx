@@ -1,15 +1,12 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useLoadDataInfo } from '../../ hooks/useLoadDataInfo/useLoadDataInfo';
-import { Link } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 import Avatar from '../../ui/avatar/Avatar';
 import Name from '../../ui/typography/Name/Name';
 import InformationsTitle from '../../ui/typography/InformationsTitle/InformationsTitle';
 import ListCharacterInfo from '../../components/list/listCharacterInfo/listCharacterInfo';
-import ListItem from '../../ui/listItem/listItem/ListItem';
-import ListItemLink from '../../ui/listItem/listItemLink/ListItemLink';
+import Loader from '../../ui/loader/Loader';
 
 import ListCharacterInfoLink from '../../components/list/listCharacterInfo/ListCharacterInfoLink';
 
@@ -84,7 +81,7 @@ const CharacterInfo = () => {
                   <Box sx={styleCharacterInfoBodyItem}>
                      <InformationsTitle>Episodes</InformationsTitle>
                      {loading ? (
-                        <span>load...</span>
+                        <Loader />
                      ) : (
                         <ListCharacterInfoLink
                            url="/episode/"

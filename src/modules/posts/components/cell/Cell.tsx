@@ -12,15 +12,13 @@ export const Cell = ({ columnIndex, rowIndex, style, columnCount, data }) => {
    return (
       <div style={cellStyle}>
          {item && (
-            <>
-               <CharactersCard
-                  id={item.id}
-                  style={style}
-                  species={item.species}
-                  name={item.name}
-                  image={item.image}
-               />
-            </>
+            <CharactersCard
+               id={item.id}
+               style={style}
+               species={item.species}
+               name={item.name}
+               image={item.image}
+            />
          )}
       </div>
    );

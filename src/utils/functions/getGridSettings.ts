@@ -12,7 +12,7 @@ export const getGridSettings = (screenWidth: number) => {
 
       case screenWidth < 800:
          console.log('< 800');
-         widthGrid = screenWidth;
+         widthGrid = 540;
          columnCount = 2;
          break;
       case screenWidth >= 801 && screenWidth < 1080:
@@ -23,7 +23,7 @@ export const getGridSettings = (screenWidth: number) => {
       case screenWidth >= 1080:
          console.log('>= 1080');
          widthGrid = 1080;
-         columnCount = 4; // Установим columnCount для >= 1080
+         columnCount = 4;
          break;
       default:
          break;

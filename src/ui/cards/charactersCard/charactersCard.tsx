@@ -6,24 +6,14 @@ import CardMedia from '@mui/material/CardMedia';
 import TitleCard from '../../typography/titleCard/TitleCard';
 import DescriptionCard from '../../typography/descriptionCard/descriptionCard';
 
-import { styled } from '@mui/material/styles';
-
 import type { CharactersCardProps } from './type';
 import { Link } from 'react-router-dom';
-
-const CardContentNoPadding = styled(CardContent)(`
-  padding: 12px 16px;
-  &:last-child {
-    padding-bottom: 12px;
-  }
-  
-`);
 
 const styleImage = {
    width: '100%',
    maxWidth: '240px',
    height: '170px',
-   '@media (max-width: 550px)': {
+   '@media (max-width: 520px)': {
       maxWidth: '312px',
       height: '232px',
    },
@@ -38,6 +28,13 @@ const styleCard = {
    '@media (max-width: 500px)': {
       maxWidth: '312px',
       height: '302px',
+   },
+};
+
+const styleCardContent = {
+   padding: '12px 16px',
+   ' &:last-child ': {
+      paddingBottom: '12px',
    },
 };
 
@@ -57,10 +54,10 @@ const CharactersCard: FC<CharactersCardProps> = ({
             image={image}
             title={name}
          />
-         <CardContentNoPadding>
+         <CardContent sx={styleCardContent}>
             <TitleCard>{name}</TitleCard>
             <DescriptionCard>{species}</DescriptionCard>
-         </CardContentNoPadding>
+         </CardContent>
       </Card>
    );
 };

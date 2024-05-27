@@ -1,12 +1,12 @@
 import { useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import { UseInfiniteLoadProps } from './type';
+import { UseInfiniteLoadProps, UseInfiniteLoadReturn } from './type';
 
 export const useInfiniteLoad = ({
    endpoint,
    vars,
    storeData,
-}: UseInfiniteLoadProps) => {
+}: UseInfiniteLoadProps): UseInfiniteLoadReturn => {
    const { data, loading, error, refetch } = useQuery(endpoint, {
       variables: { ...vars },
       fetchPolicy: 'cache-first',

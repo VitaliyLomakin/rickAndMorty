@@ -3,6 +3,7 @@ import { useStores } from '../../../context/root-store-context';
 import { useInfiniteLoad } from '../../../ hooks/useInfiniteLoad/useInfiniteLoad';
 import InfiniteLoader from 'react-window-infinite-loader';
 import PostsInner from '../components/postsInner/PostsInner';
+import Loader from '../../../ui/loader/Loader';
 import { observer } from 'mobx-react-lite';
 import { getGridSettings } from '../../../utils/functions/getGridSettings';
 import { GET_CHARACTERS } from '../../../schemas/characters/query/getCharacters';
@@ -18,18 +19,9 @@ const CharactersPosts = observer(() => {
    const vars = {
       page: characters.page,
       name: characters.isFilter ? characters.filterName : '',
-      species:
-         characters.species !== 'null' && characters.species !== ''
-            ? characters.species
-            : undefined,
-      gender:
-         characters.gender !== 'null' && characters.gender !== ''
-            ? characters.gender
-            : undefined,
-      status:
-         characters.status !== 'null' && characters.status !== ''
-            ? characters.status
-            : undefined,
+      species: characters.species !== '' ? characters.species : undefined,
+      gender: characters.gender !== '' ? characters.gender : undefined,
+      status: characters.status !== '' ? characters.status : undefined,
    };
 
    const endpoint = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS;
@@ -54,12 +46,11 @@ const CharactersPosts = observer(() => {
    const isCharacterLoaded = index => index < characters.charactersData.length;
    const rowCount = Math.ceil(characters.charactersData.length / columnCount);
 
-   const { loadMoreCharacters, error, loading, data, refetch } =
-      useInfiniteLoad({
-         endpoint,
-         vars,
-         storeData: characters,
-      });
+   const { loadMoreCharacters, error, loading, refetch } = useInfiniteLoad({
+      endpoint,
+      vars,
+      storeData: characters,
+   });
 
    useEffect(() => {
       console.log(error);
@@ -69,7 +60,7 @@ const CharactersPosts = observer(() => {
          refetch();
          loadMoreCharacters();
       }
-   }, [error, data, loading, loadMoreCharacters]);
+   }, [error, loadMoreCharacters, refetch]);
 
    return (
       <>
@@ -91,7 +82,7 @@ const CharactersPosts = observer(() => {
                />
             )}
          </InfiniteLoader>
-         {loading && 'load...'}
+         {loading && <Loader />}
       </>
    );
 });

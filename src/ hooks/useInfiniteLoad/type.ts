@@ -11,18 +11,12 @@ export type UseInfiniteLoadProps = {
    storeData: CharacterStoreType;
 };
 
-export type UseInfiniteLoadReturn<T> = {
-   data: CharacterInfoType; // Тут необходимо определить тип данных
+export type UseInfiniteLoadReturn = {
+   data: CharacterInfoType;
    loading: boolean;
-   error: ApolloError | undefined; // ApolloError необходимо импортировать из @apollo/client
+   error: ApolloError | undefined;
    loadMoreCharacters: () => void;
    refetch: (
       variables?: Partial<OperationVariables>,
-   ) => Promise<CharacterInfoType>;
+   ) => Promise<OperationVariables>;
 };
-
-// data: any; // Тут необходимо определить тип данных
-// loading: boolean;
-// error: ApolloError | undefined; // ApolloError необходимо импортировать из @apollo/client
-// loadMoreCharacters: () => void;
-// refetch: (variables?: Partial<OperationVariables>) => Promise<any>;

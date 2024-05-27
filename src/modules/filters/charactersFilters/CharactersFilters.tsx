@@ -12,8 +12,9 @@ import FilteredSelect from '../../../ui/selects/filteredSelect/FilteredSelect';
 import { arrSpeciesCharacter } from '../../../types/characters/selectType';
 import { arrGenderCharacter } from '../../../types/characters/selectType';
 import { arrStatusCharacter } from '../../../types/characters/selectType';
+
 import ModalFilter from '../../../ui/modal/modalFilter/ModalFilter';
-import { displayPartsToString } from 'typescript';
+import { charactersApplyFilters } from '../components/functions/charactersApplyFilters';
 
 const styleBox = {
    width: '100%',
@@ -45,52 +46,22 @@ const CharactersFilters = observer(() => {
          if (isMobile) {
             if (apply) {
                setApply(false);
-               if (
-                  newName.trim() !== '' ||
-                  (newSpecies &&
-                     newSpecies.length !== 0 &&
-                     newSpecies !== 'null') ||
-                  (newGender &&
-                     newGender.length !== 0 &&
-                     newGender !== 'null') ||
-                  (newStatus && newStatus.length !== 0 && newStatus !== 'null')
-               ) {
-                  characters.setFilterName(newName.trim());
-                  characters.setFilterSpecies(newSpecies);
-                  characters.setFilterGender(newGender);
-                  characters.setFilterStatus(newStatus);
-                  characters.setIsFilter(true);
-                  characters.setPage(1);
-               } else {
-                  characters.setFilterName('');
-                  characters.setFilterSpecies('');
-                  characters.setFilterGender('');
-                  characters.setFilterStatus('');
-                  characters.setIsFilter(false);
-               }
+               charactersApplyFilters(
+                  characters,
+                  newName,
+                  newSpecies,
+                  newGender,
+                  newStatus,
+               );
             }
          } else {
-            if (
-               newName.trim() !== '' ||
-               (newSpecies &&
-                  newSpecies.length !== 0 &&
-                  newSpecies !== 'null') ||
-               (newGender && newGender.length !== 0 && newGender !== 'null') ||
-               (newStatus && newStatus.length !== 0 && newStatus !== 'null')
-            ) {
-               characters.setFilterName(newName.trim());
-               characters.setFilterSpecies(newSpecies);
-               characters.setFilterGender(newGender);
-               characters.setFilterStatus(newStatus);
-               characters.setIsFilter(true);
-               characters.setPage(1);
-            } else {
-               characters.setFilterName('');
-               characters.setFilterSpecies('');
-               characters.setFilterGender('');
-               characters.setFilterStatus('');
-               characters.setIsFilter(false);
-            }
+            charactersApplyFilters(
+               characters,
+               newName,
+               newSpecies,
+               newGender,
+               newStatus,
+            );
          }
       }, 500),
       [characters, apply],
@@ -98,12 +69,6 @@ const CharactersFilters = observer(() => {
 
    useEffect(() => {
       debouncedLoadCharacters(name, species, gender, status);
-
-      console.log(name, species, gender, status);
-      // return () => {
-      //   debouncedLoadCharacters.cancel();
-      //   debouncedLoadCharacters(name, species, gender ,status);
-      // };
    }, [name, debouncedLoadCharacters, species, status, gender]);
 
    const handleNameChange = newName => {
@@ -115,14 +80,14 @@ const CharactersFilters = observer(() => {
 
    return (
       <Box sx={styleBox}>
-         {isMobile ? (
-            <>
-               <FilterPostsInput
-                  value={name}
-                  setValue={handleNameChange}
-                  placeholder={'Filter by name...'}
-                  id={'name'}
-               />
+         <InnerFilter isMobile={isMobile}>
+            <FilterPostsInput
+               value={name}
+               setValue={handleNameChange}
+               placeholder={'Filter by name...'}
+               id={'name'}
+            />
+            {isMobile ? (
                <ModalFilter onClick={onClickApply}>
                   <FilteredSelect
                      data={species}
@@ -146,42 +111,32 @@ const CharactersFilters = observer(() => {
                      label={'Status'}
                   />
                </ModalFilter>
-            </>
-         ) : (
-            <InnerFilter>
-               <FilterPostsInput
-                  value={name}
-                  setValue={handleNameChange}
-                  placeholder={'Filter by name...'}
-                  id={'name'}
-               />
-
-               <FilteredSelect
-                  data={species}
-                  setData={setSpecies}
-                  arrValue={arrSpeciesCharacter}
-                  id={'age'}
-                  label={'Species'}
-               />
-               <FilteredSelect
-                  data={gender}
-                  setData={setGender}
-                  arrValue={arrGenderCharacter}
-                  id={'gender'}
-                  label={'Gender'}
-               />
-               <FilteredSelect
-                  data={status}
-                  setData={setStatus}
-                  arrValue={arrStatusCharacter}
-                  id={'status'}
-                  label={'Status'}
-               />
-            </InnerFilter>
-         )}
-
-         {/* {characters.isFilter && "filter!"}
-      {species}{gender}{status} */}
+            ) : (
+               <>
+                  <FilteredSelect
+                     data={species}
+                     setData={setSpecies}
+                     arrValue={arrSpeciesCharacter}
+                     id={'age'}
+                     label={'Species'}
+                  />
+                  <FilteredSelect
+                     data={gender}
+                     setData={setGender}
+                     arrValue={arrGenderCharacter}
+                     id={'gender'}
+                     label={'Gender'}
+                  />
+                  <FilteredSelect
+                     data={status}
+                     setData={setStatus}
+                     arrValue={arrStatusCharacter}
+                     id={'status'}
+                     label={'Status'}
+                  />
+               </>
+            )}
+         </InnerFilter>
       </Box>
    );
 });

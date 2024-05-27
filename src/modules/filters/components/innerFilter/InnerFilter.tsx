@@ -1,8 +1,8 @@
+import { FC } from 'react';
 import { Box } from '@mui/material';
 import type { InnerFilterProps } from './type';
-import { FC } from 'react';
 
-const InnerFilter: FC<InnerFilterProps> = ({ children }) => {
+const InnerFilter: FC<InnerFilterProps> = ({ children, isMobile }) => {
    return (
       <Box
          sx={{
@@ -11,6 +11,7 @@ const InnerFilter: FC<InnerFilterProps> = ({ children }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
+            flexWrap: isMobile ? 'wrap' : 'nowrap',
          }}
       >
          {children}

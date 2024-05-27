@@ -11,6 +11,7 @@ export const getCellStyle = (columnCount, style) => {
       cellStyle.display = 'flex';
       cellStyle.justifyContent = 'center';
       cellStyle.alignItems = 'center';
+      cellStyle.marginLeft = 0;
    }
 
    return cellStyle;

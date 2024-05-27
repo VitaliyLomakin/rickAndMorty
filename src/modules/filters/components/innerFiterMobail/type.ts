@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 
-export type InnerFilterProps = {
+export type InnerFiterMobailProps = {
    children: ReactNode;
-   isMobile: boolean;
 };
