@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useStores } from '../../../context/root-store-context';
 import { useInfiniteLoad } from '../../../ hooks/useInfiniteLoad/useInfiniteLoad';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -14,7 +14,6 @@ const { widthGrid, columnCount, columnWidth } = getGridSettings(
 
 const CharactersPosts = observer(() => {
    const { characters } = useStores();
-   const [hasMoreCharacters, setHasMoreCharacters] = useState(true);
 
    const vars = {
       page: characters.page,
@@ -36,7 +35,6 @@ const CharactersPosts = observer(() => {
    const endpoint = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS;
 
    useEffect(() => {
-      console.log(characters.gender);
       characters.setPage(1);
       characters.setCharactersData([]);
 
@@ -50,19 +48,18 @@ const CharactersPosts = observer(() => {
       characters.gender,
       characters.status,
       characters.species,
+      characters,
    ]);
 
    const isCharacterLoaded = index => index < characters.charactersData.length;
    const rowCount = Math.ceil(characters.charactersData.length / columnCount);
 
    const { loadMoreCharacters, error, loading, data, refetch } =
-      useInfiniteLoad(
+      useInfiniteLoad({
          endpoint,
          vars,
-         characters,
-         setHasMoreCharacters,
-         hasMoreCharacters,
-      );
+         storeData: characters,
+      });
 
    useEffect(() => {
       console.log(error);

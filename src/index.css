@@ -16,6 +16,7 @@ code {
 main {
    width: 100%;
    max-width: 1060px;
+   position: relative;
    display: flex;
    flex-direction: column;
    justify-content: start;

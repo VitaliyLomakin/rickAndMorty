@@ -1,7 +1,7 @@
 import Characters from '../pages/characters/Characters';
 import Locations from '../pages/locations/Locations';
 import Episodes from '../pages/episodes/Episodes';
-import NotFound from '../pages/hotFound/NotFound';
+import NotFound from '../pages/notFound/NotFound';
 import CharacterInfo from '../pages/characterInfo/CharacterInfo';
 
 export const publickRoutes = [

@@ -22,8 +22,9 @@ export type CharacterInfoType = {
       status: string;
       species: string;
       type: string;
-      gender;
-      location: LocationType[];
+      gender: string;
+      origin: LocationType;
+      location: LocationType;
       image: string;
       episode: EpisodeType[];
    };

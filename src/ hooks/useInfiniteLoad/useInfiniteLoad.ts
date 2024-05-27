@@ -1,59 +1,43 @@
 import { useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
+import { UseInfiniteLoadProps } from './type';
 
-export const useInfiniteLoad = (
+export const useInfiniteLoad = ({
    endpoint,
    vars,
    storeData,
-   setHasMoreData,
-   hasMoreData,
-) => {
+}: UseInfiniteLoadProps) => {
    const { data, loading, error, refetch } = useQuery(endpoint, {
       variables: { ...vars },
       fetchPolicy: 'cache-first',
    });
 
    useEffect(() => {
-      if (
-         data &&
-         data.characters &&
-         data.characters.results &&
-         data.characters.results.length > 0
-      ) {
+      if (data && data.characters) {
          const newCharacters = data.characters.results;
          const prevPage = data.characters.info.prev;
-
          if (prevPage + 1) {
             storeData.loadPosts(newCharacters);
          } else {
             storeData.setPage(1);
          }
-
-         setHasMoreData(data.characters.info.next !== null);
       }
-   }, [data, error, storeData, setHasMoreData]);
+   }, [data, error, storeData]);
 
    const loadMoreCharacters = useCallback(() => {
-      if (loading || !hasMoreData) return;
+      if (loading) return;
       storeData.setPage(storeData.page + 1);
-   }, [loading, hasMoreData, storeData]);
+   }, [loading, storeData]);
 
    useEffect(() => {
-      if (data && data.characters && data.characters.info) {
+      if (data && data.characters) {
          const pages = data.characters.info.pages;
          const prevPage = data.characters.info.prev;
          if (pages !== prevPage && error) {
             refetch();
          }
       }
-   }, [data, error]);
-
-   // Custom function to trigger refetch if needed
-   const handleRefetch = useCallback(() => {
-      if (!loading && !error) {
-         refetch();
-      }
-   }, [loading, error, refetch]);
+   }, [data, error, refetch]);
 
    return { data, loading, error, loadMoreCharacters, refetch };
 };

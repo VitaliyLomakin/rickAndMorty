@@ -7,6 +7,10 @@ const styleName = {
    fontWeight: '400',
    lineHeight: '56.25px',
    textAlign: 'center',
+   '@media (max-width: 580px)': {
+      fontSize: '32px',
+      lineHeight: '37.25px',
+   },
 };
 const Name: FC<TypographyProps> = ({ children, style }) => {
    return (

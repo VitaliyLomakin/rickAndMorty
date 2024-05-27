@@ -52,4 +52,5 @@ class CharactersStore {
    }
 }
 
+export type CharacterStoreType = CharactersStore;
 export default new CharactersStore();

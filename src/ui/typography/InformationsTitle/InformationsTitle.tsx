@@ -6,7 +6,8 @@ const styleInformationsTitle = {
    fontSize: '20px',
    fontWeight: '500',
    lineHeight: '24px',
-   letterSpacing: '0,15px',
+   letterSpacing: '0.15px',
+   color: '#8E8E93',
 };
 
 const InformationsTitle: FC<TypographyProps> = ({ children, style }) => {
