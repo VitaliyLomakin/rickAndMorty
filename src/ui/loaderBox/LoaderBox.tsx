@@ -14,7 +14,6 @@ const LoaderBox: FC<LoaderBoxProps> = ({ children, height }) => {
    return (
       <Box height={height} sx={styleLoaderBox}>
          {children}
-         {height}
       </Box>
    );
 };

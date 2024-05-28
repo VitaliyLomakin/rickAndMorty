@@ -8,7 +8,6 @@ export const useInfiniteLoad = ({
    vars,
    storeData,
 }: UseInfiniteLoadProps): UseInfiniteLoadReturn => {
-   console.log(vars);
    const { data, loading, error, refetch } = useQuery(endpoint, {
       variables: { ...vars },
       fetchPolicy: 'cache-first',
@@ -18,6 +17,7 @@ export const useInfiniteLoad = ({
       if (data && data?.[nameEndpoint]) {
          const newCharacters = data?.[nameEndpoint].results;
          const nextPage = data?.[nameEndpoint].info.next;
+         console.log(nextPage);
          if (nextPage + 1) {
             storeData.loadPosts(newCharacters);
          } else {
@@ -30,15 +30,6 @@ export const useInfiniteLoad = ({
       if (loading) return;
       storeData.setPage(storeData.page + 1);
    }, [loading, storeData]);
-
-   useEffect(() => {
-      if (data && data?.[nameEndpoint]) {
-         const nextPage = data?.[nameEndpoint].info.next;
-         if (nextPage && error) {
-            refetch();
-         }
-      }
-   }, [data, error, refetch]);
 
    return { data, loading, error, loadMoreData, refetch };
 };

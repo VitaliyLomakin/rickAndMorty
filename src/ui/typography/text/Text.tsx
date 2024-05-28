@@ -7,8 +7,9 @@ import type { TypographyProps } from '../../../types/typographyType/typographyTy
 const styleText = {
    fontSize: '14px',
    fontWeight: '400',
-   lineHeight: '.25px',
+   lineHeight: '21px',
    color: '#6E798C',
+   letterSpacing: '.25',
 };
 
 const Text: FC<TypographyProps> = ({ children, style }) => {
