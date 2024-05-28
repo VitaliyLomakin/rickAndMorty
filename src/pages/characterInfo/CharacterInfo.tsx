@@ -14,6 +14,15 @@ import { GET_CHARACTER_INFO } from '../../schemas/characters/query/getCharacterI
 
 import type { CharacterInfoType } from '../../types/characters/charactersType';
 
+const styleCharacterInfoLoading = {
+   height: ' 100dvh',
+   width: '100%',
+   display: 'flex',
+   flexDirection: 'column',
+   alignItems: 'center',
+   justifyContent: 'center',
+};
+
 const styleCharacterInfo = {
    width: '100%',
    display: 'flex',
@@ -31,6 +40,7 @@ const styleCharacterInfoHeader = {
    gap: '16px',
    alignItems: 'center',
 };
+
 const styleCharacterInfoBody = {
    width: '100%',
    display: 'flex',
@@ -65,31 +75,34 @@ const CharacterInfo = () => {
          {error ? (
             <span>Error</span>
          ) : (
-            <Box sx={styleCharacterInfo}>
-               <Box sx={styleCharacterInfoHeader}>
-                  <Avatar
-                     img={data?.character?.image}
-                     alt={data?.character?.name}
-                  />
-                  <Name>{data?.character?.name}</Name>
-               </Box>
-               <Box sx={styleCharacterInfoBody}>
-                  <Box sx={styleCharacterInfoBodyItem}>
-                     <InformationsTitle>Informations</InformationsTitle>
-                     <ListCharacterInfo data={data} />
-                  </Box>
-                  <Box sx={styleCharacterInfoBodyItem}>
-                     <InformationsTitle>Episodes</InformationsTitle>
-                     {loading ? (
-                        <Loader />
-                     ) : (
-                        <ListCharacterInfoLink
-                           url="/episode/"
-                           arr={data?.character?.episode}
+            <Box sx={loading ? styleCharacterInfoLoading : styleCharacterInfo}>
+               {loading ? (
+                  <Loader />
+               ) : (
+                  <>
+                     <Box sx={styleCharacterInfoHeader}>
+                        <Avatar
+                           img={data?.character?.image}
+                           alt={data?.character?.name}
                         />
-                     )}
-                  </Box>
-               </Box>
+                        <Name>{data?.character?.name}</Name>
+                     </Box>
+                     <Box sx={styleCharacterInfoBody}>
+                        <Box sx={styleCharacterInfoBodyItem}>
+                           <InformationsTitle>Informations</InformationsTitle>
+                           <ListCharacterInfo data={data} />
+                        </Box>
+                        <Box sx={styleCharacterInfoBodyItem}>
+                           <InformationsTitle>Episodes</InformationsTitle>
+
+                           <ListCharacterInfoLink
+                              url="/episode/"
+                              arr={data?.character?.episode}
+                           />
+                        </Box>
+                     </Box>
+                  </>
+               )}
             </Box>
          )}
       </>

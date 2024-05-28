@@ -1,10 +1,8 @@
-import { FC } from 'react';
 import { FixedSizeGrid as Grid } from 'react-window';
 import { Cell } from '../cell/Cell';
+import { PostsInnerProps } from './type';
 
-import type { PostsInnerProps } from './type';
-
-const PostsInner: FC<PostsInnerProps> = ({
+const PostsInner = <T,>({
    columnCount,
    columnWidth,
    height,
@@ -13,7 +11,11 @@ const PostsInner: FC<PostsInnerProps> = ({
    onItemsRendered,
    reference,
    data,
-}) => {
+   Component,
+   rowHeight,
+   rowHeightMobile,
+   isMobileGridSettings,
+}: PostsInnerProps<T>) => {
    return (
       <Grid
          style={{
@@ -26,7 +28,7 @@ const PostsInner: FC<PostsInnerProps> = ({
          columnWidth={columnWidth}
          height={height}
          rowCount={rowCount}
-         rowHeight={columnCount === 1 ? 326 : 290}
+         rowHeight={isMobileGridSettings ? rowHeightMobile : rowHeight}
          width={widthGrid}
          onItemsRendered={({ visibleRowStartIndex, visibleRowStopIndex }) =>
             onItemsRendered({
@@ -42,11 +44,12 @@ const PostsInner: FC<PostsInnerProps> = ({
       >
          {({ columnIndex, rowIndex, style }) => (
             <Cell
+               columnCount={columnCount}
+               data={data}
                columnIndex={columnIndex}
                rowIndex={rowIndex}
                style={style}
-               columnCount={columnCount}
-               data={data}
+               Component={Component}
             />
          )}
       </Grid>

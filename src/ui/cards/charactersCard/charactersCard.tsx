@@ -43,7 +43,6 @@ const CharactersCard: FC<CharactersCardProps> = ({
    name,
    species,
    image,
-   style,
 }) => {
    return (
       <Card sx={styleCard} component={Link} to={`/character/${id}`}>

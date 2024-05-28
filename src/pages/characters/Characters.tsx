@@ -1,22 +1,11 @@
 import CharactersPosts from '../../modules/posts/charactersPosts/CharactersPosts';
 import CharactersFilters from '../../modules/filters/charactersFilters/CharactersFilters';
-import { CSSProperties } from 'react';
-
-const styleImg: CSSProperties = {
-   marginBottom: '16px',
-   width: '100%',
-   maxWidth: '600px',
-   objectFit: 'cover',
-};
+import Banner from '../../ui/banner/Banner';
 
 const Characters = () => {
    return (
       <>
-         <img
-            style={styleImg}
-            src="/image/rickAndMorty.png"
-            alt="rick and morty"
-         />
+         <Banner src="/image/rickAndMorty.png" alt="rick and morty" />
          <CharactersFilters />
          <CharactersPosts />
       </>

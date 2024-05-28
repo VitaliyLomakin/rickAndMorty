@@ -2,12 +2,14 @@ export const getGridSettings = (screenWidth: number) => {
    let widthGrid = 0;
    let columnCount = 4;
    let columnWidth = 260;
+   let isMobileGridSettings = false;
 
    switch (true) {
       case screenWidth < 520:
          widthGrid = screenWidth;
          columnCount = 1;
          columnWidth = 200;
+         isMobileGridSettings = true;
          break;
 
       case screenWidth < 800:
@@ -29,5 +31,5 @@ export const getGridSettings = (screenWidth: number) => {
          break;
    }
 
-   return { widthGrid, columnCount, columnWidth };
+   return { widthGrid, columnCount, columnWidth, isMobileGridSettings };
 };

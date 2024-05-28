@@ -12,6 +12,7 @@ const styleFooter: CSSProperties = {
    fontWeight: '700',
    textAlign: 'center',
    lineHeight: '21.04px',
+   marginTop: '20px',
 };
 
 const Footer = () => {

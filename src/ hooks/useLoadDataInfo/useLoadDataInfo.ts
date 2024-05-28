@@ -12,6 +12,5 @@ export const useLoadDataInfo = <T>({
       fetchPolicy: 'cache-first',
    });
 
-   // Возвращаем результат запроса
    return { data, loading, error, refetch };
 };

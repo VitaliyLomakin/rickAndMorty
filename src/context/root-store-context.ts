@@ -6,6 +6,7 @@ export const RootStoreContext = createContext<RootStore | null>(null);
 export const useStores = () => {
    const context = useContext(RootStoreContext);
    if (context === null) {
+      // в случае проблем
       throw new Error('Обыерните прилож в провайдер');
    }
    return context;

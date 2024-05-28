@@ -3,20 +3,22 @@ import { useQuery } from '@apollo/client';
 import { UseInfiniteLoadProps, UseInfiniteLoadReturn } from './type';
 
 export const useInfiniteLoad = ({
+   nameEndpoint,
    endpoint,
    vars,
    storeData,
 }: UseInfiniteLoadProps): UseInfiniteLoadReturn => {
+   console.log(vars);
    const { data, loading, error, refetch } = useQuery(endpoint, {
       variables: { ...vars },
       fetchPolicy: 'cache-first',
    });
 
    useEffect(() => {
-      if (data && data.characters) {
-         const newCharacters = data.characters.results;
-         const prevPage = data.characters.info.prev;
-         if (prevPage + 1) {
+      if (data && data?.[nameEndpoint]) {
+         const newCharacters = data?.[nameEndpoint].results;
+         const nextPage = data?.[nameEndpoint].info.next;
+         if (nextPage + 1) {
             storeData.loadPosts(newCharacters);
          } else {
             storeData.setPage(1);
@@ -24,20 +26,19 @@ export const useInfiniteLoad = ({
       }
    }, [data, error, storeData]);
 
-   const loadMoreCharacters = useCallback(() => {
+   const loadMoreData = useCallback(() => {
       if (loading) return;
       storeData.setPage(storeData.page + 1);
    }, [loading, storeData]);
 
    useEffect(() => {
-      if (data && data.characters) {
-         const pages = data.characters.info.pages;
-         const prevPage = data.characters.info.prev;
-         if (pages !== prevPage && error) {
+      if (data && data?.[nameEndpoint]) {
+         const nextPage = data?.[nameEndpoint].info.next;
+         if (nextPage && error) {
             refetch();
          }
       }
    }, [data, error, refetch]);
 
-   return { data, loading, error, loadMoreCharacters, refetch };
+   return { data, loading, error, loadMoreData, refetch };
 };

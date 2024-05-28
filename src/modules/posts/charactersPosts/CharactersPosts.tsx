@@ -3,15 +3,22 @@ import { useStores } from '../../../context/root-store-context';
 import { useInfiniteLoad } from '../../../ hooks/useInfiniteLoad/useInfiniteLoad';
 import InfiniteLoader from 'react-window-infinite-loader';
 import PostsInner from '../components/postsInner/PostsInner';
+import CharactersCard from '../../../ui/cards/charactersCard/charactersCard';
 import Loader from '../../../ui/loader/Loader';
+import LoaderBox from '../../../ui/loaderBox/LoaderBox';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { getGridSettings } from '../../../utils/functions/getGridSettings';
 import { GET_CHARACTERS } from '../../../schemas/characters/query/getCharacters';
-import { GET_FILTERCHARACTERS } from '../../../schemas/characters/query/getFilteredCharacters';
+import { GET_FILTERED_CHARACTERS } from '../../../schemas/characters/query/getFilteredCharacters';
 
-const { widthGrid, columnCount, columnWidth } = getGridSettings(
-   window.innerWidth,
-);
+import type { CharacterType } from '../../../types/characters/charactersType';
+
+const { widthGrid, columnCount, columnWidth, isMobileGridSettings } =
+   getGridSettings(window.innerWidth);
+
+let rowHeight = 290;
+let rowHeightMobile = 326;
 
 const CharactersPosts = observer(() => {
    const { characters } = useStores();
@@ -24,7 +31,9 @@ const CharactersPosts = observer(() => {
       status: characters.status !== '' ? characters.status : undefined,
    };
 
-   const endpoint = characters.isFilter ? GET_FILTERCHARACTERS : GET_CHARACTERS;
+   const endpoint = characters.isFilter
+      ? GET_FILTERED_CHARACTERS
+      : GET_CHARACTERS;
 
    useEffect(() => {
       characters.setPage(1);
@@ -46,7 +55,8 @@ const CharactersPosts = observer(() => {
    const isCharacterLoaded = index => index < characters.charactersData.length;
    const rowCount = Math.ceil(characters.charactersData.length / columnCount);
 
-   const { loadMoreCharacters, error, loading, refetch } = useInfiniteLoad({
+   const { loadMoreData, error, loading, refetch } = useInfiniteLoad({
+      nameEndpoint: 'characters',
       endpoint,
       vars,
       storeData: characters,
@@ -58,19 +68,19 @@ const CharactersPosts = observer(() => {
       if (error) {
          console.error(error, 'err');
          refetch();
-         loadMoreCharacters();
+         loadMoreData();
       }
-   }, [error, loadMoreCharacters, refetch]);
+   }, [error, loadMoreData, refetch]);
 
    return (
       <>
          <InfiniteLoader
             isItemLoaded={isCharacterLoaded}
             itemCount={characters.charactersData.length * 2}
-            loadMoreItems={loadMoreCharacters}
+            loadMoreItems={loadMoreData}
          >
             {({ onItemsRendered, ref }) => (
-               <PostsInner
+               <PostsInner<CharacterType>
                   columnCount={columnCount}
                   columnWidth={columnWidth}
                   height={600}
@@ -79,10 +89,14 @@ const CharactersPosts = observer(() => {
                   onItemsRendered={onItemsRendered}
                   reference={ref}
                   data={characters.charactersData}
+                  Component={CharactersCard}
+                  rowHeight={rowHeight}
+                  rowHeightMobile={rowHeightMobile}
+                  isMobileGridSettings={isMobileGridSettings}
                />
             )}
          </InfiniteLoader>
-         {loading && <Loader />}
+         <LoaderBox height={50}>{loading && <Loader />}</LoaderBox>
       </>
    );
 });

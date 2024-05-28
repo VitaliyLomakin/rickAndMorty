@@ -1,10 +1,9 @@
-import { RefObject } from 'react';
+import { RefObject, ComponentType } from 'react';
 import { ListOnItemsRenderedProps } from 'react-window';
 import type { CharacterType } from '../../../../types/characters/charactersType';
+import type { LocationType } from '../../../../types/locations/locationsType';
 
-type DataArrType = CharacterType;
-
-export type PostsInnerProps = {
+export type PostsInnerProps<T> = {
    columnCount: number;
    columnWidth: number;
    height: number;
@@ -12,5 +11,9 @@ export type PostsInnerProps = {
    widthGrid: number;
    onItemsRendered: (props: ListOnItemsRenderedProps) => void;
    reference: RefObject<any>;
-   data: DataArrType[];
+   data: CharacterType[] | LocationType[];
+   Component: ComponentType<T>;
+   rowHeight: number;
+   rowHeightMobile: number;
+   isMobileGridSettings: boolean;
 };

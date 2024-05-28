@@ -9,9 +9,9 @@ import InnerFilter from '../components/innerFilter/InnerFilter';
 import FilterPostsInput from '../../../ui/inputs/filterPostsInput/FilterPostsInput';
 import FilteredSelect from '../../../ui/selects/filteredSelect/FilteredSelect';
 
-import { arrSpeciesCharacter } from '../../../types/characters/selectType';
-import { arrGenderCharacter } from '../../../types/characters/selectType';
-import { arrStatusCharacter } from '../../../types/characters/selectType';
+import { arrCharacterSpecies } from '../../../types/characters/charactersSelectType';
+import { arrCharacterGender } from '../../../types/characters/charactersSelectType';
+import { arrStatusCharacter } from '../../../types/characters/charactersSelectType';
 
 import ModalFilter from '../../../ui/modal/modalFilter/ModalFilter';
 import { charactersApplyFilters } from '../components/functions/charactersApplyFilters';
@@ -40,28 +40,25 @@ const CharactersFilters = observer(() => {
 
    const debouncedLoadCharacters = useCallback(
       debounce((newName, newSpecies, newGender, newStatus) => {
-         console.log(newSpecies, 'spec');
-         console.log(newStatus, 'status');
-         console.log(newGender, 'gen');
          if (isMobile) {
             if (apply) {
                setApply(false);
-               charactersApplyFilters(
+               charactersApplyFilters({
                   characters,
                   newName,
                   newSpecies,
                   newGender,
                   newStatus,
-               );
+               });
             }
          } else {
-            charactersApplyFilters(
+            charactersApplyFilters({
                characters,
                newName,
                newSpecies,
                newGender,
                newStatus,
-            );
+            });
          }
       }, 500),
       [characters, apply],
@@ -92,14 +89,14 @@ const CharactersFilters = observer(() => {
                   <FilteredSelect
                      data={species}
                      setData={setSpecies}
-                     arrValue={arrSpeciesCharacter}
-                     id={'age'}
+                     arrValue={arrCharacterSpecies}
+                     id={'species'}
                      label={'Species'}
                   />
                   <FilteredSelect
                      data={gender}
                      setData={setGender}
-                     arrValue={arrGenderCharacter}
+                     arrValue={arrCharacterGender}
                      id={'gender'}
                      label={'Gender'}
                   />
@@ -116,14 +113,14 @@ const CharactersFilters = observer(() => {
                   <FilteredSelect
                      data={species}
                      setData={setSpecies}
-                     arrValue={arrSpeciesCharacter}
+                     arrValue={arrCharacterSpecies}
                      id={'age'}
                      label={'Species'}
                   />
                   <FilteredSelect
                      data={gender}
                      setData={setGender}
-                     arrValue={arrGenderCharacter}
+                     arrValue={arrCharacterGender}
                      id={'gender'}
                      label={'Gender'}
                   />

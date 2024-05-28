@@ -8,7 +8,7 @@ const InnerFilter: FC<InnerFilterProps> = ({ children, isMobile }) => {
          sx={{
             display: 'flex',
             gap: 2,
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
             flexWrap: isMobile ? 'wrap' : 'nowrap',

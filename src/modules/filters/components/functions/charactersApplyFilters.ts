@@ -1,10 +1,20 @@
-export const charactersApplyFilters = (
+import { CharacterStoreType } from '../../../../stores/charactes-store';
+
+type TypecharactersApplyFilters = {
+   characters: CharacterStoreType;
+   newName: string;
+   newSpecies: string;
+   newGender: string;
+   newStatus: string;
+};
+
+export const charactersApplyFilters = ({
    characters,
    newName,
    newSpecies,
    newGender,
    newStatus,
-) => {
+}: TypecharactersApplyFilters) => {
    if (newName.trim() !== '' || newSpecies || newGender || newStatus) {
       characters.setFilterName(newName.trim());
       characters.setFilterSpecies(newSpecies);
