@@ -1,6 +1,6 @@
 @import url('./fonts.scss');
 
-.App {
+#root {
    width: 100%;
    display: flex;
    justify-content: center;

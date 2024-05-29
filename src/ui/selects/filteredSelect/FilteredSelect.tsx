@@ -33,7 +33,7 @@ const FilteredSelect: FC<FilteredSelectProps> = ({
             placeholder={label}
          >
             {arrValue.map(el => (
-               <MenuItem key={el} value={el === 'reset' ? '' : el}>
+               <MenuItem key={el} value={el === 'All' ? '' : el}>
                   {el}
                </MenuItem>
             ))}

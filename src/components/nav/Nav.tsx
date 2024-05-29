@@ -18,10 +18,15 @@ const styleNavbar = {
    display: { xs: 'none', sm: 'block' },
 };
 
+const styleNavList = {
+   display: 'flex',
+   gap: '27px',
+};
+
 const Nav = () => {
    return (
       <AppBar component="nav" position="static" sx={styleNavbar}>
-         <Box component="ul" sx={{ display: 'flex', gap: '27px' }}>
+         <Box component="ul" sx={styleNavList}>
             {headerNavRoutes.map(({ path, text }) => (
                <Button
                   sx={styleLink}

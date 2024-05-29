@@ -61,7 +61,6 @@ const LocationsPosts = observer(() => {
       hasMore,
       setHasMore,
    });
-   console.log(locations.locationsData.length);
 
    return (
       <>

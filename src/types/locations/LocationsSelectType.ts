@@ -44,7 +44,7 @@ enum LocationType {
    Country = 'Country',
    Consciousness = 'Consciousness',
    Memory = 'Memory',
-   Null = 'reset',
+   All = 'All',
 }
 
 export const arrLocationType: LocationType[] = [
@@ -93,7 +93,7 @@ export const arrLocationType: LocationType[] = [
    LocationType.Country,
    LocationType.Consciousness,
    LocationType.Memory,
-   LocationType.Null,
+   LocationType.All,
 ];
 
 enum LocationsDimension {
@@ -130,7 +130,7 @@ enum LocationsDimension {
    TuskDimension = 'Tusk Dimension',
    MagicDimension = 'Magic Dimension',
    MergedDimension = 'Merged Dimension',
-   Null = 'reset',
+   All = 'All',
 }
 
 export const arrLocationsDimension: LocationsDimension[] = [
@@ -167,5 +167,5 @@ export const arrLocationsDimension: LocationsDimension[] = [
    LocationsDimension.TuskDimension,
    LocationsDimension.MagicDimension,
    LocationsDimension.MergedDimension,
-   LocationsDimension.Null,
+   LocationsDimension.All,
 ];

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useStore } from 'mobx-store-provider';
 import { observer } from 'mobx-react-lite';
 import debounce from 'lodash.debounce';
 import { useStores } from '../../../context/root-store-context';
@@ -16,6 +17,8 @@ import { arrStatusCharacter } from '../../../types/characters/charactersSelectTy
 import ModalFilter from '../../../ui/modal/modalFilter/ModalFilter';
 import { charactersApplyFilters } from '../components/functions/charactersApplyFilters';
 
+import AppStore from '../../../stores/appStore';
+
 const styleBox = {
    width: '100%',
    marginBottom: '61px',
@@ -30,7 +33,8 @@ const styleBox = {
 
 const CharactersFilters = observer(() => {
    const isMobile = useMediaQuery('(max-width:600px)');
-
+   const { user } = useStore(AppStore);
+   console.log(user.name);
    const { characters } = useStores();
    const [name, setName] = useState(characters.filterName);
    const [species, setSpecies] = useState(characters.species);
@@ -79,7 +83,7 @@ const CharactersFilters = observer(() => {
       <Box sx={styleBox}>
          <InnerFilter isMobile={isMobile}>
             <FilterPostsInput
-               width="23%"
+               width="240px"
                value={name}
                setValue={handleNameChange}
                placeholder={'Filter by name...'}

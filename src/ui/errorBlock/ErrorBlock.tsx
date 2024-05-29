@@ -30,14 +30,19 @@ const styleCardContent = {
    },
 };
 
-const ErrorBlockCloseButton = {
+const styleErrorBlockCloseButton = {
    position: 'absolute',
    right: '10px',
    top: '10px',
 };
 
+const styleErrorText = {
+   color: '#fff',
+};
+
 const ErrorBlock: FC<ErrorBlockProps> = ({ message, name, refetch }) => {
    const [open, setOPen] = useState<boolean>(true);
+
    const onClickButtonClose = () => {
       setOPen(false);
    };
@@ -46,17 +51,18 @@ const ErrorBlock: FC<ErrorBlockProps> = ({ message, name, refetch }) => {
       <>
          {open && (
             <Card sx={styleCard}>
-               <Box onClick={onClickButtonClose} sx={ErrorBlockCloseButton}>
+               <Box
+                  onClick={onClickButtonClose}
+                  sx={styleErrorBlockCloseButton}
+               >
                   <img src="/image/close.svg" alt="close" />
                </Box>
                <CardContent sx={styleCardContent}>
-                  <TitleCard style={{ color: '#fff' }}>Error! {name}</TitleCard>
-                  <DescriptionCard style={{ color: '#fff' }}>
+                  <TitleCard sx={styleErrorText}>Error! {name}</TitleCard>
+                  <DescriptionCard sx={styleErrorText}>
                      {message}
                   </DescriptionCard>
-                  <DescriptionCard style={{ color: '#fff' }}>
-                     soryy(
-                  </DescriptionCard>
+                  <DescriptionCard sx={styleErrorText}>soryy(</DescriptionCard>
                   <ButtonRefetch reFetch={refetch}>refetch</ButtonRefetch>
                </CardContent>
             </Card>

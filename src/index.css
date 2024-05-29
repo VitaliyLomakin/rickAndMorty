@@ -15,7 +15,7 @@ code {
 
 main {
    width: 100%;
-   max-width: 1060px;
+   max-width: 1050px;
    position: relative;
    display: flex;
    flex-direction: column;

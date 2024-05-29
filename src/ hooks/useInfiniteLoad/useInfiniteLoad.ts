@@ -16,14 +16,13 @@ export const useInfiniteLoad = ({
    });
 
    useEffect(() => {
+      console.log(data?.[nameEndpoint].info.next);
       if (data && data?.[nameEndpoint]) {
          const newCharacters = data?.[nameEndpoint].results;
          const nextPage = data?.[nameEndpoint].info.next;
-
-         if (nextPage + 1) {
+         console.log(nextPage !== null);
+         if (newCharacters.length !== 0 && nextPage !== null) {
             storeData.loadPosts(newCharacters);
-         } else {
-            storeData.setPage(1);
          }
          setHasMore(data?.[nameEndpoint].info.next !== null);
       }
@@ -31,7 +30,6 @@ export const useInfiniteLoad = ({
 
    const loadMoreData = useCallback(() => {
       if (loading || !hasMore) return;
-
       storeData.setPage(storeData.page + 1);
    }, [loading, storeData]);
 

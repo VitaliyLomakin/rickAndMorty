@@ -39,6 +39,7 @@ class LocationsStore {
    setPage(page: number) {
       this.page = page;
    }
+
    setIsFilter(boolean: boolean) {
       this.isFilter = boolean;
    }
@@ -48,4 +49,6 @@ class LocationsStore {
 }
 
 export type LocationsStoreStoreType = LocationsStore;
-export default new LocationsStore();
+
+const locationsStore = new LocationsStore();
+export default locationsStore;

@@ -7,6 +7,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Drawer from '../../ui/drawer/Drawer';
 import Nav from '../nav/Nav';
 
+const styleLogo = {
+   width: 46,
+   height: 49,
+};
+
 const headerStyle = {
    width: '100dvw',
    position: 'sticky',
@@ -57,10 +62,7 @@ const Header = () => {
                      component="img"
                      src="/image/logo.svg"
                      alt="Логотип"
-                     sx={{
-                        width: 46,
-                        height: 49,
-                     }}
+                     sx={styleLogo}
                   />
                </Link>
 

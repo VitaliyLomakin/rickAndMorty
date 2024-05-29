@@ -84,7 +84,7 @@ const CharactersPosts = observer(() => {
             />
          )}
          {!error &&
-            loading &&
+            !loading &&
             characters.isFilter &&
             characters.charactersData.length === 0 && (
                <NotDataFiltered

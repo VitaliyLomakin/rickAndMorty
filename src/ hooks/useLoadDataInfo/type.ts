@@ -1,4 +1,5 @@
 import { DocumentNode } from 'graphql';
+import { ApolloError } from '@apollo/client';
 
 export type useLoadDataInfoProps = {
    endpoint: DocumentNode;
@@ -8,6 +9,6 @@ export type useLoadDataInfoProps = {
 export type LoadDataInfoResponse<T> = {
    data: T | null;
    loading: boolean;
-   error: any;
+   error: ApolloError | undefined;
    refetch: () => void;
 };

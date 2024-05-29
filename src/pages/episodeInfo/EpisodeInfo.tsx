@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useLoadDataInfo } from '../../ hooks/useLoadDataInfo/useLoadDataInfo';
 
 import { Box } from '@mui/material';
-import MainTitle from '../../ui/typography/MainTitle/MainTitle';
+import MainTitle from '../../ui/typography/mainTitle/MainTitle';
 import SubTitle from '../../ui/typography/subTitle/SubTitle';
 import InformationsTitle from '../../ui/typography/InformationsTitle/InformationsTitle';
 import Text from '../../ui/typography/text/Text';

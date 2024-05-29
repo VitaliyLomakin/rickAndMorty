@@ -9,7 +9,7 @@ enum CharacterSpecies {
    Robot = 'Robot',
    Cronenberg = 'Cronenberg',
    Disease = 'Disease',
-   Null = 'reset',
+   All = 'All',
 }
 
 export const arrCharacterSpecies: CharacterSpecies[] = [
@@ -24,7 +24,7 @@ export const arrCharacterSpecies: CharacterSpecies[] = [
    CharacterSpecies.Robot,
    CharacterSpecies.Cronenberg,
    CharacterSpecies.Disease,
-   CharacterSpecies.Null,
+   CharacterSpecies.All,
 ];
 
 enum CharacterGender {
@@ -32,7 +32,7 @@ enum CharacterGender {
    Male = 'Male',
    Genderless = 'Genderless',
    unknown = 'newSpecies',
-   Null = 'reset',
+   All = 'All',
 }
 
 export const arrCharacterGender: CharacterGender[] = [
@@ -40,19 +40,19 @@ export const arrCharacterGender: CharacterGender[] = [
    CharacterGender.Male,
    CharacterGender.Genderless,
    CharacterGender.unknown,
-   CharacterGender.Null,
+   CharacterGender.All,
 ];
 
 enum CharacterStatus {
    Alive = 'Alive',
    Dead = 'Dead',
    Unknown = 'unknown',
-   Null = 'reset',
+   All = 'All',
 }
 
 export const arrStatusCharacter: CharacterStatus[] = [
    CharacterStatus.Alive,
    CharacterStatus.Dead,
    CharacterStatus.Unknown,
-   CharacterStatus.Null,
+   CharacterStatus.All,
 ];
