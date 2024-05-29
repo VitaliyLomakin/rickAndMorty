@@ -1,11 +1,16 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 import TextField from '@mui/material/TextField';
 import { useMediaQuery } from '@mui/material';
+import type { FilterPostsInputProps } from './type';
 
-const FilterPostsInput = ({ value, setValue, placeholder, id }) => {
+const FilterPostsInput: FC<FilterPostsInputProps> = ({
+   value,
+   setValue,
+   placeholder,
+   id,
+   width,
+}) => {
    const isMobile = useMediaQuery('(max-width:600px)');
-
-   const sx = isMobile ? { width: '100%' } : { width: '23%' };
 
    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value as string);
@@ -13,12 +18,21 @@ const FilterPostsInput = ({ value, setValue, placeholder, id }) => {
    return (
       <>
          <TextField
-            sx={sx}
             onChange={onChange}
-            id="outlined-basic"
+            style={{ maxWidth: !isMobile && width, width: '100%' }}
+            id={id}
             value={value}
-            label={placeholder}
+            placeholder={placeholder}
             variant="outlined"
+            InputProps={{
+               startAdornment: (
+                  <img
+                     src="/image/search.svg"
+                     alt="search icon"
+                     style={{ width: 24, height: 24, marginRight: '8px' }}
+                  />
+               ),
+            }}
          />
       </>
    );

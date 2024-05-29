@@ -3,6 +3,7 @@ import { useLoadDataInfo } from '../../ hooks/useLoadDataInfo/useLoadDataInfo';
 
 import { Box } from '@mui/material';
 import Avatar from '../../ui/avatar/Avatar';
+import ErrorBlock from '../../ui/errorBlock/ErrorBlock';
 import Name from '../../ui/typography/Name/Name';
 import InformationsTitle from '../../ui/typography/InformationsTitle/InformationsTitle';
 import ListCharacterInfo from '../../components/list/listCharacterInfo/listCharacterInfo';
@@ -73,7 +74,7 @@ const CharacterInfo = () => {
    return (
       <>
          {error ? (
-            <span>Error</span>
+            <ErrorBlock name={error.name} message={error.message} />
          ) : (
             <Box sx={loading ? styleCharacterInfoLoading : styleCharacterInfo}>
                {loading ? (

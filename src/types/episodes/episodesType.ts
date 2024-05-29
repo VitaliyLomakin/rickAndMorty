@@ -8,3 +8,14 @@ export type EpisodeType = {
    characters?: CharacterType[];
    created?: string;
 };
+
+export type EpisodeInfoType = {
+   episode: {
+      id: number;
+      name: string;
+      air_date: string;
+      episode: string;
+      characters?: CharacterType[];
+      created?: string;
+   };
+};

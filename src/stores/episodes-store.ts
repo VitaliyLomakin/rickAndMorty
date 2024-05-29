@@ -5,10 +5,9 @@ import { deleteDublicate } from '../utils/functions/deleteDublicate';
 class EpisodesStore {
    episodesData: EpisodeType[] = [];
    page = 1;
-
    filterName = '';
-
    isFilter = false;
+
    constructor() {
       makeAutoObservable(this);
    }
@@ -20,7 +19,7 @@ class EpisodesStore {
       this.episodesData = [...res];
    }
 
-   setLocationsData(data: EpisodeType[]) {
+   setEpisodesData(data: EpisodeType[]) {
       this.episodesData = data;
    }
 

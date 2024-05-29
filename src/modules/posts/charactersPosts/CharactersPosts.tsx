@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStores } from '../../../context/root-store-context';
 import { useInfiniteLoad } from '../../../ hooks/useInfiniteLoad/useInfiniteLoad';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -6,13 +6,14 @@ import PostsInner from '../components/postsInner/PostsInner';
 import CharactersCard from '../../../ui/cards/charactersCard/charactersCard';
 import Loader from '../../../ui/loader/Loader';
 import LoaderBox from '../../../ui/loaderBox/LoaderBox';
-import { Box } from '@mui/material';
+import NotDataFiltered from '../../../ui/notDataFiltered/NotDataFiltered';
 import { observer } from 'mobx-react-lite';
 import { getGridSettings } from '../../../utils/functions/getGridSettings';
 import { GET_CHARACTERS } from '../../../schemas/characters/query/getCharacters';
 import { GET_FILTERED_CHARACTERS } from '../../../schemas/characters/query/getFilteredCharacters';
 
 import type { CharacterType } from '../../../types/characters/charactersType';
+import ErrorBlock from '../../../ui/errorBlock/ErrorBlock';
 
 const { widthGrid, columnCount, columnWidth, isMobileGridSettings } =
    getGridSettings(window.innerWidth);
@@ -21,6 +22,7 @@ let rowHeight = 290;
 let rowHeightMobile = 326;
 
 const CharactersPosts = observer(() => {
+   const [hasMore, setHasMore] = useState(true);
    const { characters } = useStores();
 
    const vars = {
@@ -60,6 +62,8 @@ const CharactersPosts = observer(() => {
       endpoint,
       vars,
       storeData: characters,
+      hasMore,
+      setHasMore,
    });
 
    useEffect(() => {
@@ -67,13 +71,27 @@ const CharactersPosts = observer(() => {
 
       if (error) {
          console.error(error, 'err');
-         refetch();
-         loadMoreData();
       }
    }, [error, loadMoreData, refetch]);
 
    return (
       <>
+         {error && (
+            <ErrorBlock
+               message={error.message}
+               name={error.name}
+               refetch={loadMoreData}
+            />
+         )}
+         {!error &&
+            loading &&
+            characters.isFilter &&
+            characters.charactersData.length === 0 && (
+               <NotDataFiltered
+                  dataName="characters"
+                  desc="try something else("
+               />
+            )}
          <InfiniteLoader
             isItemLoaded={isCharacterLoaded}
             itemCount={characters.charactersData.length * 2}

@@ -79,6 +79,7 @@ const CharactersFilters = observer(() => {
       <Box sx={styleBox}>
          <InnerFilter isMobile={isMobile}>
             <FilterPostsInput
+               width="23%"
                value={name}
                setValue={handleNameChange}
                placeholder={'Filter by name...'}

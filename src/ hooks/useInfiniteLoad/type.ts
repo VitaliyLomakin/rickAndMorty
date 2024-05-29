@@ -4,6 +4,7 @@ import { ApolloError, OperationVariables } from '@apollo/client';
 import type { CharacterInfoType } from '../../types/characters/charactersType';
 import type { LocationsStoreStoreType } from '../../stores/locations-store';
 import type { EpisodesStoreType } from '../../stores/episodes-store';
+import { Dispatch, SetStateAction } from 'react';
 
 type VarsType = Record<string, any>;
 
@@ -12,6 +13,8 @@ export type UseInfiniteLoadProps = {
    endpoint: DocumentNode;
    vars: VarsType; // так как тут много вариантов от просто page для скролла, до фильтрации
    storeData: CharacterStoreType | LocationsStoreStoreType | EpisodesStoreType;
+   setHasMore: Dispatch<SetStateAction<boolean>>;
+   hasMore: boolean;
 };
 
 export type UseInfiniteLoadReturn = {

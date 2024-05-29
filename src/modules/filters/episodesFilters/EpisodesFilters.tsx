@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import InnerFilter from '../components/innerFilter/InnerFilter';
 import FilterPostsInput from '../../../ui/inputs/filterPostsInput/FilterPostsInput';
 
-import { locationsApplyFilters } from '../components/functions/locationsApplyFilters';
+import { episodesApplyFilters } from '../components/functions/episodesApplyFilters.ts';
 
 const styleBox = {
    width: '100%',
@@ -27,7 +27,7 @@ const EpisodesFilters = observer(() => {
 
    const debouncedLoadCharacters = useCallback(
       debounce(newName => {
-         locationsApplyFilters({
+         episodesApplyFilters({
             episodes,
             newName,
          });
@@ -45,12 +45,15 @@ const EpisodesFilters = observer(() => {
 
    return (
       <Box sx={styleBox}>
+         {episodes.filterName}
+         {episodes.isFilter && 'filter'}
          <InnerFilter>
             <FilterPostsInput
                value={name}
                setValue={handleNameChange}
                placeholder={'Name or episode (ex.S01E01)...'}
                id={'name'}
+               width="500px"
             />
          </InnerFilter>
       </Box>

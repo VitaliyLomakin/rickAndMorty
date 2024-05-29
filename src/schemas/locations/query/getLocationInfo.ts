@@ -1,29 +1,19 @@
 import { gql } from '@apollo/client';
 
-export const GET_CHARACTER_INFO = gql`
+export const GET_LOCATION_INFO = gql`
    query getLocationInfo($id: ID!) {
-      character(id: $id) {
+      location(id: $id) {
          id
          name
-         status
-         species
          type
-         gender
-         origin {
-            name
-         }
-         location {
-            id
-            dimension
-            name
-         }
-         image
-         episode {
+         dimension
+         residents {
             id
             name
-            air_date
-            episode
+            species
+            image
          }
+         created
       }
    }
 `;

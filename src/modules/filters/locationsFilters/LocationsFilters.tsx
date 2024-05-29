@@ -76,6 +76,7 @@ const LocationsFilters = observer(() => {
       <Box sx={styleBox}>
          <InnerFilter isMobile={isMobile}>
             <FilterPostsInput
+               width="326px"
                value={name}
                setValue={handleNameChange}
                placeholder={'Filter by name...'}

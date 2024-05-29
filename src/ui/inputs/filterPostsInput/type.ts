@@ -1,9 +1,9 @@
-import { CharacterType } from "../../../types/characters/charactersType"
+import { Dispatch, SetStateAction } from 'react';
 
-type DataType = {
-    data: CharacterType[]
-}
-
-export type FilterPostsInputType = {
-    data:DataType
-}
+export type FilterPostsInputProps = {
+   value: string;
+   setValue: Dispatch<SetStateAction<string>>;
+   placeholder: string;
+   id: string;
+   width?: string | number;
+};
