@@ -1,6 +1,6 @@
-import {ReactNode ,CSSProperties} from "react"
+import { ReactNode, CSSProperties } from 'react';
 
 export type TypographyProps = {
-    children:ReactNode
-    style?:CSSProperties
-}
+   children: ReactNode;
+   style?: CSSProperties;
+};
