@@ -1,4 +1,4 @@
-import { FC, CSSProperties } from 'react';
+import { FC } from 'react';
 import { Button } from '@mui/material';
 
 import type { ButtonApplyProps } from './type';

@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from 'react';
+import { FC, CSSProperties } from 'react';
 import { Button } from '@mui/material';
 
 import type { ModalButtonsProps } from './type';

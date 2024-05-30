@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import type { BannerProps } from './type';
 
 const styleBanner: CSSProperties = {
