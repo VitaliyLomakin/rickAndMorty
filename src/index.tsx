@@ -6,9 +6,6 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import RootStore from './stores/rootStore';
-import { RootStoreContext } from './context/root-store-context';
-
 const client = new ApolloClient({
    uri: 'https://rickandmortyapi.com/graphql',
    cache: new InMemoryCache(),
@@ -21,11 +18,9 @@ const root = ReactDOM.createRoot(
 root.render(
    <React.StrictMode>
       <ApolloProvider client={client}>
-         <RootStoreContext.Provider value={new RootStore()}>
-            <BrowserRouter>
-               <App />
-            </BrowserRouter>
-         </RootStoreContext.Provider>
+         <BrowserRouter>
+            <App />
+         </BrowserRouter>
       </ApolloProvider>
    </React.StrictMode>,
 );

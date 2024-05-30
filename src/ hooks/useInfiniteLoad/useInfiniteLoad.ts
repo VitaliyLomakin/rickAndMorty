@@ -16,20 +16,20 @@ export const useInfiniteLoad = ({
    });
 
    useEffect(() => {
-      console.log(data?.[nameEndpoint].info.next);
       if (data && data?.[nameEndpoint]) {
-         const newCharacters = data?.[nameEndpoint].results;
+         const newData = data?.[nameEndpoint].results;
          const nextPage = data?.[nameEndpoint].info.next;
-         console.log(nextPage !== null);
-         if (newCharacters.length !== 0 && nextPage !== null) {
-            storeData.loadPosts(newCharacters);
+
+         if (newData.length !== 0) {
+            storeData.loadPosts(newData);
          }
-         setHasMore(data?.[nameEndpoint].info.next !== null);
+         setHasMore(nextPage !== null);
       }
    }, [data, error, storeData]);
 
    const loadMoreData = useCallback(() => {
-      if (loading || !hasMore) return;
+      if (loading || !hasMore || error) return;
+      console.log(hasMore);
       storeData.setPage(storeData.page + 1);
    }, [loading, storeData]);
 

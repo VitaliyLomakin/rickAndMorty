@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useStores } from '../../../context/root-store-context';
 import { useInfiniteLoad } from '../../../ hooks/useInfiniteLoad/useInfiniteLoad';
 import InfiniteLoader from 'react-window-infinite-loader';
 import PostsInner from '../components/postsInner/PostsInner';
@@ -15,6 +14,8 @@ import { GET_FILTERED_LOCATIONS } from '../../../schemas/locations/query/getFilt
 
 import type { LocationType } from '../../../types/locations/locationsType';
 
+import { rootStore } from '../../../stores/rootStore';
+
 const { widthGrid, columnCount, columnWidth, isMobileGridSettings } =
    getGridSettings(window.innerWidth);
 
@@ -22,42 +23,43 @@ let rowHeight = 148;
 let rowHeightMobile = 148;
 
 const LocationsPosts = observer(() => {
-   const { locations } = useStores();
+   const {
+      locationsData,
+      setLocationsData,
+      setPage,
+      isFilter,
+      type,
+      dimension,
+      page,
+      filterName,
+   } = rootStore.locations;
+
    const [hasMore, setHasMore] = useState(true);
 
    const vars = {
-      page: locations.page,
-      name: locations.isFilter ? locations.filterName : '',
-      type: locations.type !== '' ? locations.type : undefined,
-      dimension: locations.dimension !== '' ? locations.dimension : undefined,
+      page: page,
+      name: isFilter ? filterName : '',
+      type: type !== '' ? type : undefined,
+      dimension: dimension !== '' ? dimension : undefined,
    };
 
-   const endpoint = locations.isFilter ? GET_FILTERED_LOCATIONS : GET_LOCATIONS;
+   const endpoint = isFilter ? GET_FILTERED_LOCATIONS : GET_LOCATIONS;
 
    useEffect(() => {
-      locations.setPage(1);
-      locations.setLocationsData([]);
-
       return () => {
-         locations.setPage(1);
-         locations.setLocationsData([]);
+         setPage(1);
+         setLocationsData([]);
       };
-   }, [
-      locations.isFilter,
-      locations.filterName,
-      locations.dimension,
-      locations.type,
-      locations,
-   ]);
+   }, [isFilter, filterName, dimension, type, rootStore.characters]);
 
-   const isDataLoaded = index => index < locations.locationsData.length;
-   const rowCount = Math.ceil(locations.locationsData.length / columnCount);
+   const isDataLoaded = index => index < locationsData.length;
+   const rowCount = Math.ceil(locationsData.length / columnCount);
 
    const { loadMoreData, error, loading, refetch } = useInfiniteLoad({
       nameEndpoint: 'locations',
       endpoint,
       vars,
-      storeData: locations,
+      storeData: rootStore.locations,
       hasMore,
       setHasMore,
    });
@@ -71,18 +73,12 @@ const LocationsPosts = observer(() => {
                refetch={refetch}
             />
          )}
-         {!error &&
-            loading &&
-            locations.isFilter &&
-            locations.locationsData.length === 0 && (
-               <NotDataFiltered
-                  dataName="locations"
-                  desc="try something else("
-               />
-            )}
+         {!error && !loading && isFilter && locationsData.length === 0 && (
+            <NotDataFiltered dataName="locations" desc="try something else(" />
+         )}
          <InfiniteLoader
             isItemLoaded={isDataLoaded}
-            itemCount={locations.locationsData.length * 2}
+            itemCount={locationsData.length * 2}
             loadMoreItems={loadMoreData}
          >
             {({ onItemsRendered, ref }) => (
@@ -94,7 +90,7 @@ const LocationsPosts = observer(() => {
                   widthGrid={widthGrid}
                   onItemsRendered={onItemsRendered}
                   reference={ref}
-                  data={locations.locationsData}
+                  data={locationsData}
                   Component={LocationsCard}
                   rowHeight={rowHeight}
                   rowHeightMobile={rowHeightMobile}

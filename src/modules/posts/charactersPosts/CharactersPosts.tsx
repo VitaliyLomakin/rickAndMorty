@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useStores } from '../../../context/root-store-context';
 import { useInfiniteLoad } from '../../../ hooks/useInfiniteLoad/useInfiniteLoad';
 import InfiniteLoader from 'react-window-infinite-loader';
 import PostsInner from '../components/postsInner/PostsInner';
@@ -7,13 +6,15 @@ import CharactersCard from '../../../ui/cards/charactersCard/charactersCard';
 import Loader from '../../../ui/loader/Loader';
 import LoaderBox from '../../../ui/loaderBox/LoaderBox';
 import NotDataFiltered from '../../../ui/notDataFiltered/NotDataFiltered';
+import ErrorBlock from '../../../ui/errorBlock/ErrorBlock';
 import { observer } from 'mobx-react-lite';
 import { getGridSettings } from '../../../utils/functions/getGridSettings';
 import { GET_CHARACTERS } from '../../../schemas/characters/query/getCharacters';
 import { GET_FILTERED_CHARACTERS } from '../../../schemas/characters/query/getFilteredCharacters';
 
 import type { CharacterType } from '../../../types/characters/charactersType';
-import ErrorBlock from '../../../ui/errorBlock/ErrorBlock';
+
+import { rootStore } from '../../../stores/rootStore';
 
 const { widthGrid, columnCount, columnWidth, isMobileGridSettings } =
    getGridSettings(window.innerWidth);
@@ -22,46 +23,45 @@ let rowHeight = 290;
 let rowHeightMobile = 326;
 
 const CharactersPosts = observer(() => {
+   const {
+      charactersData,
+      page,
+      isFilter,
+      species,
+      gender,
+      status,
+      filterName,
+      setPage,
+      setCharactersData,
+   } = rootStore.characters;
+
    const [hasMore, setHasMore] = useState(true);
-   const { characters } = useStores();
 
    const vars = {
-      page: characters.page,
-      name: characters.isFilter ? characters.filterName : '',
-      species: characters.species !== '' ? characters.species : undefined,
-      gender: characters.gender !== '' ? characters.gender : undefined,
-      status: characters.status !== '' ? characters.status : undefined,
+      page: page,
+      name: isFilter ? filterName : '',
+      species: species !== '' ? species : undefined,
+      gender: gender !== '' ? gender : undefined,
+      status: status !== '' ? status : undefined,
    };
 
-   const endpoint = characters.isFilter
-      ? GET_FILTERED_CHARACTERS
-      : GET_CHARACTERS;
+   const endpoint = isFilter ? GET_FILTERED_CHARACTERS : GET_CHARACTERS;
 
    useEffect(() => {
-      characters.setPage(1);
-      characters.setCharactersData([]);
-
       return () => {
-         characters.setPage(1);
-         characters.setCharactersData([]);
+         setPage(1);
+         setCharactersData([]);
       };
-   }, [
-      characters.isFilter,
-      characters.filterName,
-      characters.gender,
-      characters.status,
-      characters.species,
-      characters,
-   ]);
+   }, [isFilter, filterName, gender, status, species, rootStore.characters]);
 
-   const isCharacterLoaded = index => index < characters.charactersData.length;
-   const rowCount = Math.ceil(characters.charactersData.length / columnCount);
+   const isCharacterLoaded = index => index < charactersData.length;
+   const rowCount = Math.ceil(charactersData.length / columnCount);
 
    const { loadMoreData, error, loading, refetch } = useInfiniteLoad({
       nameEndpoint: 'characters',
       endpoint,
       vars,
-      storeData: characters,
+      storeData: rootStore.characters,
       hasMore,
       setHasMore,
    });
@@ -83,18 +83,12 @@ const CharactersPosts = observer(() => {
                refetch={loadMoreData}
             />
          )}
-         {!error &&
-            !loading &&
-            characters.isFilter &&
-            characters.charactersData.length === 0 && (
-               <NotDataFiltered
-                  dataName="characters"
-                  desc="try something else("
-               />
-            )}
+         {!error && !loading && isFilter && charactersData.length === 0 && (
+            <NotDataFiltered dataName="characters" desc="try something else(" />
+         )}
          <InfiniteLoader
             isItemLoaded={isCharacterLoaded}
-            itemCount={characters.charactersData.length * 2}
+            itemCount={charactersData.length * 2}
             loadMoreItems={loadMoreData}
          >
             {({ onItemsRendered, ref }) => (
@@ -106,7 +100,7 @@ const CharactersPosts = observer(() => {
                   widthGrid={widthGrid}
                   onItemsRendered={onItemsRendered}
                   reference={ref}
-                  data={characters.charactersData}
+                  data={charactersData}
                   Component={CharactersCard}
                   rowHeight={rowHeight}
                   rowHeightMobile={rowHeightMobile}

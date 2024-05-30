@@ -5,22 +5,20 @@ import { deleteDublicate } from '../utils/functions/deleteDublicate';
 class CharactersStore {
    charactersData: CharacterType[] = [];
    page = 1;
-
    filterName = '';
    species = '';
    gender = '';
    status = '';
-
    isFilter = false;
 
    constructor() {
       makeAutoObservable(this);
+      this.setPage = this.setPage.bind(this);
+      this.setCharactersData = this.setCharactersData.bind(this);
    }
 
    loadPosts(newData: CharacterType[]) {
-      // this.charactersData = [...this.charactersData, ...newData];
       const res = deleteDublicate([...this.charactersData, ...newData], 'id');
-
       this.charactersData = [...res];
    }
 

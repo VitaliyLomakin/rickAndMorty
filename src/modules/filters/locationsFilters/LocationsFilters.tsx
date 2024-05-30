@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useMediaQuery } from '@mui/material';
+
 import { observer } from 'mobx-react-lite';
 import debounce from 'lodash.debounce';
-import { useStores } from '../../../context/root-store-context';
-import { useMediaQuery } from '@mui/material';
 
 import Box from '@mui/material/Box';
 import InnerFilter from '../components/innerFilter/InnerFilter';
@@ -14,6 +14,8 @@ import { arrLocationsDimension } from '../../../types/locations/LocationsSelectT
 
 import ModalFilter from '../../../ui/modal/modalFilter/ModalFilter';
 import { locationsApplyFilters } from '../components/functions/locationsApplyFilters';
+
+import { rootStore } from '../../../stores/rootStore';
 
 const styleBox = {
    width: '100%',
@@ -28,12 +30,13 @@ const styleBox = {
 };
 
 const LocationsFilters = observer(() => {
+   const { filterName, type, dimension } = rootStore.locations;
+
    const isMobile = useMediaQuery('(max-width:600px)');
 
-   const { locations } = useStores();
-   const [name, setName] = useState(locations.filterName);
-   const [type, setType] = useState(locations.type);
-   const [dimension, setDimension] = useState(locations.dimension);
+   const [name, setName] = useState(filterName);
+   const [stateType, setStateType] = useState(type);
+   const [stateDimension, setStateDimension] = useState(dimension);
 
    const [apply, setApply] = useState(false);
 
@@ -43,7 +46,7 @@ const LocationsFilters = observer(() => {
             if (apply) {
                setApply(false);
                locationsApplyFilters({
-                  locations,
+                  locations: rootStore.locations,
                   newName,
                   newType,
                   newDimension,
@@ -51,19 +54,19 @@ const LocationsFilters = observer(() => {
             }
          } else {
             locationsApplyFilters({
-               locations,
+               locations: rootStore.locations,
                newName,
                newType,
                newDimension,
             });
          }
       }, 500),
-      [locations, apply],
+      [rootStore.locations, apply],
    );
 
    useEffect(() => {
-      debouncedLoadCharacters(name, type, dimension);
-   }, [name, debouncedLoadCharacters, dimension, type]);
+      debouncedLoadCharacters(name, stateType, stateDimension);
+   }, [name, debouncedLoadCharacters, stateType, stateDimension]);
 
    const handleNameChange = newName => {
       setName(newName);
@@ -74,6 +77,8 @@ const LocationsFilters = observer(() => {
 
    return (
       <Box sx={styleBox}>
+         {type}
+         {dimension}
          <InnerFilter isMobile={isMobile}>
             <FilterPostsInput
                width="326px"
@@ -85,15 +90,15 @@ const LocationsFilters = observer(() => {
             {isMobile ? (
                <ModalFilter onClick={onClickApply}>
                   <FilteredSelect
-                     data={type}
-                     setData={setType}
+                     data={stateType}
+                     setData={setStateType}
                      arrValue={arrLocationType}
                      id={'type'}
                      label={'type'}
                   />
                   <FilteredSelect
-                     data={dimension}
-                     setData={setDimension}
+                     data={stateDimension}
+                     setData={setStateDimension}
                      arrValue={arrLocationsDimension}
                      id={'dimension'}
                      label={'dimension'}
@@ -102,15 +107,15 @@ const LocationsFilters = observer(() => {
             ) : (
                <>
                   <FilteredSelect
-                     data={type}
-                     setData={setType}
+                     data={stateType}
+                     setData={setStateType}
                      arrValue={arrLocationType}
                      id={'type'}
                      label={'type'}
                   />
                   <FilteredSelect
-                     data={dimension}
-                     setData={setDimension}
+                     data={stateDimension}
+                     setData={setStateDimension}
                      arrValue={arrLocationsDimension}
                      id={'dimension'}
                      label={'dimension'}

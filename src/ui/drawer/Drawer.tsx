@@ -40,7 +40,7 @@ const Drawer: FC<DrawerProps> = ({
             height={`calc(100vh - ${height + 3}px)`}
          >
             {headerNavRoutes.map(({ path, text }) => (
-               <li style={styleLink} key={path}>
+               <li onClick={handleDrawerToggle} style={styleLink} key={path}>
                   <Link to={path}>{text}</Link>
                </li>
             ))}

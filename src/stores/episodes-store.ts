@@ -10,12 +10,12 @@ class EpisodesStore {
 
    constructor() {
       makeAutoObservable(this);
+      this.setPage = this.setPage.bind(this);
+      this.setEpisodesData = this.setEpisodesData.bind(this);
    }
 
    loadPosts(newData: EpisodeType[]) {
-      console.log(newData);
       const res = deleteDublicate([...this.episodesData, ...newData], 'id');
-
       this.episodesData = [...res];
    }
 

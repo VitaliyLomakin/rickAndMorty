@@ -5,15 +5,15 @@ import { deleteDublicate } from '../utils/functions/deleteDublicate';
 class LocationsStore {
    locationsData: LocationType[] = [];
    page = 1;
-
    filterName = '';
    type = '';
    dimension = '';
-
    isFilter = false;
 
    constructor() {
       makeAutoObservable(this);
+      this.setPage = this.setPage.bind(this);
+      this.setLocationsData = this.setLocationsData.bind(this);
    }
 
    loadPosts(newData: LocationType[]) {

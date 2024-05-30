@@ -6,7 +6,7 @@ export const getGridSettings = (screenWidth: number) => {
 
    switch (true) {
       case screenWidth < 520:
-         widthGrid = screenWidth;
+         widthGrid = screenWidth - 20;
          columnCount = 1;
          columnWidth = 200;
          isMobileGridSettings = true;

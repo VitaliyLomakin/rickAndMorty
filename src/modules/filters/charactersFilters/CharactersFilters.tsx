@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useStore } from 'mobx-store-provider';
+
 import { observer } from 'mobx-react-lite';
 import debounce from 'lodash.debounce';
-import { useStores } from '../../../context/root-store-context';
+
 import { useMediaQuery } from '@mui/material';
 
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ import { arrStatusCharacter } from '../../../types/characters/charactersSelectTy
 import ModalFilter from '../../../ui/modal/modalFilter/ModalFilter';
 import { charactersApplyFilters } from '../components/functions/charactersApplyFilters';
 
-import AppStore from '../../../stores/appStore';
+import { rootStore } from '../../../stores/rootStore';
 
 const styleBox = {
    width: '100%',
@@ -33,22 +33,23 @@ const styleBox = {
 
 const CharactersFilters = observer(() => {
    const isMobile = useMediaQuery('(max-width:600px)');
-   const { user } = useStore(AppStore);
-   console.log(user.name);
-   const { characters } = useStores();
-   const [name, setName] = useState(characters.filterName);
-   const [species, setSpecies] = useState(characters.species);
-   const [gender, setGender] = useState(characters.gender);
-   const [status, setStatus] = useState(characters.status);
+   const { filterName, species, gender, status } = rootStore.characters;
+   console.log(gender, species);
+
+   const [name, setName] = useState(filterName);
+   const [stateSpecies, setStateSpecies] = useState(species);
+   const [stateGender, setStateGender] = useState(gender);
+   const [stateStatus, setStateStatus] = useState(status);
    const [apply, setApply] = useState(false);
 
    const debouncedLoadCharacters = useCallback(
       debounce((newName, newSpecies, newGender, newStatus) => {
+         console.log(newGender);
          if (isMobile) {
             if (apply) {
                setApply(false);
                charactersApplyFilters({
-                  characters,
+                  characters: rootStore.characters,
                   newName,
                   newSpecies,
                   newGender,
@@ -57,7 +58,7 @@ const CharactersFilters = observer(() => {
             }
          } else {
             charactersApplyFilters({
-               characters,
+               characters: rootStore.characters,
                newName,
                newSpecies,
                newGender,
@@ -65,12 +66,12 @@ const CharactersFilters = observer(() => {
             });
          }
       }, 500),
-      [characters, apply],
+      [rootStore.characters, apply],
    );
 
    useEffect(() => {
-      debouncedLoadCharacters(name, species, gender, status);
-   }, [name, debouncedLoadCharacters, species, status, gender]);
+      debouncedLoadCharacters(name, stateSpecies, stateGender, stateStatus);
+   }, [name, debouncedLoadCharacters, stateSpecies, stateStatus, stateGender]);
 
    const handleNameChange = newName => {
       setName(newName);
@@ -92,22 +93,22 @@ const CharactersFilters = observer(() => {
             {isMobile ? (
                <ModalFilter onClick={onClickApply}>
                   <FilteredSelect
-                     data={species}
-                     setData={setSpecies}
+                     data={stateSpecies}
+                     setData={setStateSpecies}
                      arrValue={arrCharacterSpecies}
                      id={'species'}
                      label={'Species'}
                   />
                   <FilteredSelect
-                     data={gender}
-                     setData={setGender}
+                     data={stateGender}
+                     setData={setStateGender}
                      arrValue={arrCharacterGender}
                      id={'gender'}
                      label={'Gender'}
                   />
                   <FilteredSelect
-                     data={status}
-                     setData={setStatus}
+                     data={stateStatus}
+                     setData={setStateStatus}
                      arrValue={arrStatusCharacter}
                      id={'status'}
                      label={'Status'}
@@ -116,22 +117,22 @@ const CharactersFilters = observer(() => {
             ) : (
                <>
                   <FilteredSelect
-                     data={species}
-                     setData={setSpecies}
+                     data={stateSpecies}
+                     setData={setStateSpecies}
                      arrValue={arrCharacterSpecies}
-                     id={'age'}
+                     id={'species'}
                      label={'Species'}
                   />
                   <FilteredSelect
-                     data={gender}
-                     setData={setGender}
+                     data={stateGender}
+                     setData={setStateGender}
                      arrValue={arrCharacterGender}
                      id={'gender'}
                      label={'Gender'}
                   />
                   <FilteredSelect
-                     data={status}
-                     setData={setStatus}
+                     data={stateStatus}
+                     setData={setStateStatus}
                      arrValue={arrStatusCharacter}
                      id={'status'}
                      label={'Status'}

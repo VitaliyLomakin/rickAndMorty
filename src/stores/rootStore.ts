@@ -8,4 +8,4 @@ class RootStore {
    episodes = episodesStore;
 }
 
-export default RootStore;
+export const rootStore = new RootStore();

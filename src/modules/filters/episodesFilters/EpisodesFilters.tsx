@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import debounce from 'lodash.debounce';
-import { useStores } from '../../../context/root-store-context';
 
 import Box from '@mui/material/Box';
 import InnerFilter from '../components/innerFilter/InnerFilter';
 import FilterPostsInput from '../../../ui/inputs/filterPostsInput/FilterPostsInput';
 
 import { episodesApplyFilters } from '../components/functions/episodesApplyFilters.ts';
+
+import { rootStore } from '../../../stores/rootStore';
 
 const styleBox = {
    width: '100%',
@@ -22,17 +23,18 @@ const styleBox = {
 };
 
 const EpisodesFilters = observer(() => {
-   const { episodes } = useStores();
-   const [name, setName] = useState(episodes.filterName);
+   const { filterName } = rootStore.episodes;
+
+   const [name, setName] = useState(filterName);
 
    const debouncedLoadCharacters = useCallback(
       debounce(newName => {
          episodesApplyFilters({
-            episodes,
+            episodes: rootStore.episodes,
             newName,
          });
       }, 500),
-      [episodes],
+      [rootStore.episodes],
    );
 
    useEffect(() => {
@@ -45,8 +47,6 @@ const EpisodesFilters = observer(() => {
 
    return (
       <Box sx={styleBox}>
-         {episodes.filterName}
-         {episodes.isFilter && 'filter'}
          <InnerFilter>
             <FilterPostsInput
                value={name}
