@@ -28,20 +28,20 @@ const EpisodesFilters = observer(() => {
    const [name, setName] = useState(filterName);
 
    const debouncedLoadCharacters = useCallback(
-      debounce(newName => {
+      debounce((newName: string) => {
          episodesApplyFilters({
             episodes: rootStore.episodes,
             newName,
          });
       }, 500),
-      [rootStore.episodes],
+      [rootStore.episodes, name, debounce, episodesApplyFilters],
    );
 
    useEffect(() => {
       debouncedLoadCharacters(name);
    }, [name, debouncedLoadCharacters]);
 
-   const handleNameChange = newName => {
+   const handleNameChange = (newName: string) => {
       setName(newName);
    };
 

@@ -25,13 +25,13 @@ export const useInfiniteLoad = ({
          }
          setHasMore(nextPage !== null);
       }
-   }, [data, error, storeData]);
+   }, [data, error, storeData, nameEndpoint, setHasMore]);
 
    const loadMoreData = useCallback(() => {
       if (loading || !hasMore || error) return;
       console.log(hasMore);
       storeData.setPage(storeData.page + 1);
-   }, [loading, storeData]);
+   }, [loading, storeData, hasMore, error]);
 
    return { data, loading, error, loadMoreData, refetch };
 };

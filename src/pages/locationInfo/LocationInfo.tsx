@@ -78,7 +78,11 @@ const LocationsInfo = () => {
    return (
       <>
          {error ? (
-            <ErrorBlock name={error.name} message={error.message} />
+            <ErrorBlock
+               refetch={refetch}
+               name={error.name}
+               message={error.message}
+            />
          ) : (
             <Box sx={loading ? styleLocationsInfoLoading : styleLocationsInfo}>
                {loading ? (

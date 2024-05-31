@@ -6,7 +6,7 @@ import type { LocationsStoreStoreType } from '../../stores/locations-store';
 import type { EpisodesStoreType } from '../../stores/episodes-store';
 import { Dispatch, SetStateAction } from 'react';
 
-type VarsType = Record<string, any>;
+type VarsType = Record<string, unknown>;
 
 export type UseInfiniteLoadProps = {
    nameEndpoint: string;

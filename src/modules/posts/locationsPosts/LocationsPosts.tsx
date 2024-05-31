@@ -19,8 +19,8 @@ import { rootStore } from '../../../stores/rootStore';
 const { widthGrid, columnCount, columnWidth, isMobileGridSettings } =
    getGridSettings(window.innerWidth);
 
-let rowHeight = 148;
-let rowHeightMobile = 148;
+const rowHeight = 148;
+const rowHeightMobile = 148;
 
 const LocationsPosts = observer(() => {
    const {
@@ -50,7 +50,7 @@ const LocationsPosts = observer(() => {
          setPage(1);
          setLocationsData([]);
       };
-   }, [isFilter, filterName, dimension, type, rootStore.characters]);
+   }, [setPage, setLocationsData, filterName, type, dimension, isFilter]);
 
    const isDataLoaded = index => index < locationsData.length;
    const rowCount = Math.ceil(locationsData.length / columnCount);

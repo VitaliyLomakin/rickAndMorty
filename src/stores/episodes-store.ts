@@ -32,7 +32,7 @@ class EpisodesStore {
    }
 
    setPagePlusNumber() {
-      this.page++;
+      this.page += 1;
    }
    setIsFilter(boolean: boolean) {
       this.isFilter = boolean;

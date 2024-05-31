@@ -44,7 +44,7 @@ class LocationsStore {
       this.isFilter = boolean;
    }
    setPagePlusNumber() {
-      this.page++;
+      this.page += 1;
    }
 }
 

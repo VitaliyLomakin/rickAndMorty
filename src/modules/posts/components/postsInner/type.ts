@@ -1,8 +1,6 @@
 import { RefObject, ComponentType } from 'react';
 import { ListOnItemsRenderedProps } from 'react-window';
-import type { CharacterType } from '../../../../types/characters/charactersType';
-import type { LocationType } from '../../../../types/locations/locationsType';
-import type { EpisodeType } from '../../../../types/episodes/episodesType';
+import { FixedSizeGrid } from 'react-window';
 
 export type PostsInnerProps<T> = {
    columnCount: number;
@@ -11,8 +9,8 @@ export type PostsInnerProps<T> = {
    rowCount: number;
    widthGrid: number;
    onItemsRendered: (props: ListOnItemsRenderedProps) => void;
-   reference: RefObject<any>;
-   data: CharacterType[] | LocationType[] | EpisodeType[];
+   reference: RefObject<FixedSizeGrid<T>>;
+   data: T[];
    Component: ComponentType<T>;
    rowHeight: number;
    rowHeightMobile: number;

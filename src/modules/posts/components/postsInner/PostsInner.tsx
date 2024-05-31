@@ -43,7 +43,7 @@ const PostsInner = <T,>({
          ref={reference}
       >
          {({ columnIndex, rowIndex, style }) => (
-            <Cell
+            <Cell<T>
                columnCount={columnCount}
                data={data}
                columnIndex={columnIndex}

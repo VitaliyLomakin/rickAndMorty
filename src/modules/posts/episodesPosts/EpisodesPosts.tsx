@@ -21,8 +21,8 @@ import { rootStore } from '../../../stores/rootStore';
 const { widthGrid, columnCount, columnWidth, isMobileGridSettings } =
    getGridSettings(window.innerWidth);
 
-let rowHeight = 168;
-let rowHeightMobile = 168;
+const rowHeight = 168;
+const rowHeightMobile = 168;
 
 const EpisodesPosts = observer(() => {
    const {
@@ -47,7 +47,7 @@ const EpisodesPosts = observer(() => {
          setPage(1);
          setEpisodesData([]);
       };
-   }, [isFilter, filterName, rootStore.characters]);
+   }, [setPage, setEpisodesData, isFilter, filterName]);
 
    const isDataLoaded = index => index < episodesData.length;
    const rowCount = Math.ceil(episodesData.length / columnCount);
