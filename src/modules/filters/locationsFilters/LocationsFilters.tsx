@@ -40,7 +40,7 @@ const LocationsFilters = observer(() => {
 
    const [apply, setApply] = useState(false);
 
-   const debouncedLoadCharacters = useCallback(
+   const debouncedLoadLocations = useCallback(
       debounce((newName, newType, newDimension) => {
          if (isMobile) {
             if (apply) {
@@ -65,8 +65,8 @@ const LocationsFilters = observer(() => {
    );
 
    useEffect(() => {
-      debouncedLoadCharacters(name, stateType, stateDimension);
-   }, [name, debouncedLoadCharacters, stateType, stateDimension]);
+      debouncedLoadLocations(name, stateType, stateDimension);
+   }, [name, debouncedLoadLocations, stateType, stateDimension]);
 
    const handleNameChange = newName => {
       setName(newName);
