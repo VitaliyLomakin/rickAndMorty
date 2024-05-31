@@ -11,7 +11,7 @@ import { episodesApplyFilters } from '../components/functions/episodesApplyFilte
 import { rootStore } from '../../../stores/rootStore';
 
 const styleBox = {
- width: '100%',
+   width: '100%',
    marginBottom: '61px',
    '@media (max-width:600px)': {
       display: 'flex',
