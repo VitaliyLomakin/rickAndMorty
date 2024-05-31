@@ -14,7 +14,6 @@ const styleCard = {
    height: '100%',
    maxWidth: '404px',
    borderRadius: '4px',
-   backgroundColor: 'red',
    display: 'flex',
    justifyContent: 'center',
    alignItems: 'center',
@@ -41,6 +40,7 @@ const styleErrorText = {
 };
 
 const ErrorBlock: FC<ErrorBlockProps> = ({ message, name, refetch }) => {
+   console.log(typeof refetch);
    const [open, setOPen] = useState<boolean>(true);
 
    const onClickButtonClose = () => {

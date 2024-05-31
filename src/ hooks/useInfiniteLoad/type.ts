@@ -22,7 +22,7 @@ export type UseInfiniteLoadReturn = {
    loading: boolean;
    error: ApolloError | undefined;
    loadMoreData: () => void;
-   refetch: (
+   refetch?: (
       variables?: Partial<OperationVariables>,
    ) => Promise<OperationVariables>;
 };

@@ -65,7 +65,7 @@ const CharactersPosts = observer(() => {
    const isCharacterLoaded = index => index < charactersData.length;
    const rowCount = Math.ceil(charactersData.length / columnCount);
 
-   const { loadMoreData, error, loading, refetch } = useInfiniteLoad({
+   const { loadMoreData, error, loading } = useInfiniteLoad({
       nameEndpoint: 'characters',
       endpoint,
       vars,
@@ -73,14 +73,6 @@ const CharactersPosts = observer(() => {
       hasMore,
       setHasMore,
    });
-
-   useEffect(() => {
-      console.log(error);
-
-      if (error) {
-         console.error(error, 'err');
-      }
-   }, [error, loadMoreData, refetch]);
 
    return (
       <>

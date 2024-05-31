@@ -8,9 +8,11 @@ const styleButtonGoBack = {
    marginTop: '10px',
    padding: '4px 12px',
    justifyContent: 'center',
+   border: '1px solid red',
 };
 
 const ButtonRefetch: FC<ButtonRefetchProps> = ({ reFetch, children }) => {
+   console.log(reFetch);
    return (
       <Button
          sx={styleButtonGoBack}
